@@ -1,0 +1,49 @@
+name: Ironclad Quest CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  soroban-contracts:
+    name: Build & Test Soroban Contracts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Build Contracts
+        run: cargo build --target wasm32-unknown-unknown --release
+        working-directory: contracts/forge-core
+
+      - name: Run Contract Tests
+        run: cargo test
+        working-directory: contracts/forge-core
+
+  frontend-dapp:
+    name: Build Frontend DApp
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build React Application
+        run: npm run build
