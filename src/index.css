@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-forge-abyssal text-slate-300 font-sans antialiased overflow-x-hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-cinematic text-forge-copperGlow tracking-wider;
+  }
+
+  /* Custom Scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-black/20 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-forge-iron/50 rounded-full hover:bg-forge-iron;
+  }
+}
+
+@layer utilities {
+  .bg-metallic-texture {
+    background-image: linear-gradient(135deg, rgba(30,30,36,0.9), rgba(10,10,12,0.95)), 
+                      url('https://www.transparenttextures.com/patterns/black-scales.png');
+  }
+  
+  .bg-rusty-texture {
+    background-image: linear-gradient(to bottom right, rgba(139,69,19,0.2), rgba(10,10,12,0.9)), 
+                      url('https://www.transparenttextures.com/patterns/rusty-metal.png');
+  }
+
+  .text-shadow-glow {
+    text-shadow: 0 0 10px rgba(184, 115, 51, 0.5);
+  }
+  
+  .text-shadow-blood {
+    text-shadow: 0 0 15px rgba(139, 0, 0, 0.8);
+  }
+
+  @keyframes shine {
+    0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 2px rgba(255,255,255,0.4)); transform: scale(1); }
+    50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(255,255,255,1)) drop-shadow(0 0 16px rgba(255,255,255,0.7)); transform: scale(1.1); }
+  }
+  
+  .animate-sword-shine {
+    animation: shine 2.5s ease-in-out infinite;
+    display: inline-block;
+  }
+}
