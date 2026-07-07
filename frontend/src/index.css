@@ -13,7 +13,6 @@
     @apply font-cinematic text-forge-copperGlow tracking-wider;
   }
 
-  /* Custom Scrollbar for dark theme */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;

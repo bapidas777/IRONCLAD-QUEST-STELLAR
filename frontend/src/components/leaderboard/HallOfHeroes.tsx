@@ -58,7 +58,6 @@ export default function HallOfHeroes() {
 
   return (
     <div className="w-full max-w-4xl mx-auto flex flex-col pt-8 pb-32">
-      {/* Header */}
       <div className="text-center mb-16">
         <h2 className="text-3xl md:text-5xl font-cinematic font-bold text-white tracking-tight mb-2 uppercase drop-shadow-[0_4px_12px_rgba(153,27,27,0.5)]">
           Global Ranking
@@ -72,9 +71,7 @@ export default function HallOfHeroes() {
         animate="visible"
         className="w-full flex flex-col gap-12 mt-8"
       >
-        {/* Podium Section */}
         <div className="flex items-end justify-center gap-2 md:gap-4 h-64 md:h-72 px-4 mt-8">
-          {/* Rank 2 */}
           <motion.div variants={itemVariants} className="flex flex-col items-center w-1/3 relative z-10">
             <div className="mb-4 text-center w-full">
               {second?.avatarUrl ? (
@@ -91,7 +88,6 @@ export default function HallOfHeroes() {
             </div>
           </motion.div>
 
-          {/* Rank 1 */}
           <motion.div variants={itemVariants} className="flex flex-col items-center w-1/3 relative z-20 -translate-y-4 md:-translate-y-8">
             <div className="mb-4 text-center w-full">
               <div className="relative inline-block">
@@ -112,7 +108,6 @@ export default function HallOfHeroes() {
             </div>
           </motion.div>
 
-          {/* Rank 3 */}
           <motion.div variants={itemVariants} className="flex flex-col items-center w-1/3 relative z-10">
             <div className="mb-4 text-center w-full">
               {third?.avatarUrl ? (
@@ -130,7 +125,6 @@ export default function HallOfHeroes() {
           </motion.div>
         </div>
 
-        {/* Leaderboard List */}
         <motion.div variants={itemVariants} className="bg-forge-abyssal border border-forge-iron rounded overflow-hidden shadow-2xl relative">
           <div className="h-1 w-full bg-forge-copperGlow"></div>
           <div className="flex flex-col">

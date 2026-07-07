@@ -55,7 +55,6 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [lastActiveDate, setLastActiveDate] = useState<string | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Effect to load user-specific data when publicKey changes
   useEffect(() => {
     if (publicKey) {
       setXp(parseInt(localStorage.getItem(`forge_xp_${publicKey}`) || '0'));
@@ -73,7 +72,6 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       }
       setIsLoaded(true);
     } else {
-      // Reset state if disconnected
       setXp(0);
       setStreak(0);
       setBalanceXLM(0);
@@ -101,7 +99,6 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const connectWallet = async () => {
     try {
-      // Lazy load to avoid circular deps if needed, but App.tsx handles init
       const { StellarWalletsKit } = await import('@creit.tech/stellar-wallets-kit');
       const { address } = await StellarWalletsKit.fetchAddress();
       setPublicKey(address);
@@ -132,7 +129,6 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const newActivity = { ...activity, id: Date.now().toString() };
     setActivities(prev => [newActivity, ...prev].slice(0, 50)); // Keep last 50
 
-    // Streak logic
     const today = new Date().toDateString();
     if (lastActiveDate) {
       const last = new Date(lastActiveDate);
@@ -145,7 +141,6 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       } else if (diffDays > 1) {
         setStreak(1); // Missed a day, reset to 1
       }
-      // If diffDays === 0, same day, do nothing to streak
     } else {
       setStreak(1); // First activity ever
     }

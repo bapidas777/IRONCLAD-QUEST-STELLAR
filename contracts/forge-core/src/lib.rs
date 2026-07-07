@@ -11,7 +11,6 @@ pub struct ForgeContract;
 
 #[contractimpl]
 impl ForgeContract {
-    /// Pay entry fee in XLM or any token to participate.
     pub fn pay_entry_fee(env: Env, player: Address, token_address: Address, amount: i128) {
         player.require_auth();
 
@@ -21,7 +20,6 @@ impl ForgeContract {
         env.events().publish((symbol_short!("enter"), player), amount);
     }
 
-    /// Admin updates the quiz batch.
     pub fn create_quiz_batch(env: Env, items: Vec<(u32, String, String)>) {
         let mut questions: Map<u32, (String, String)> = env.storage().instance().get(&QUESTIONS_KEY).unwrap_or(Map::new(&env));
 
@@ -46,7 +44,6 @@ impl ForgeContract {
         env.storage().instance().get(&LEADERBOARD_KEY).unwrap_or(Vec::new(&env))
     }
 
-    /// Submit answers. Evaluates correctly matching answers and updates the leaderboard.
     pub fn submit_batch(env: Env, solver: Address, answers: Vec<(u32, String)>) -> u32 {
         solver.require_auth();
 
@@ -63,7 +60,6 @@ impl ForgeContract {
             }
         }
 
-        // Save high score if greater than previous high score
         let mut high_scores: Map<Address, u32> = env.storage().persistent().get(&HIGH_SCORES_KEY).unwrap_or(Map::new(&env));
         let prev_high = high_scores.get(solver.clone()).unwrap_or(0);
         
@@ -71,10 +67,8 @@ impl ForgeContract {
             high_scores.set(solver.clone(), correct);
             env.storage().persistent().set(&HIGH_SCORES_KEY, &high_scores);
 
-            // Update on-chain leaderboard
             let leaderboard: Vec<(Address, u32)> = env.storage().instance().get(&LEADERBOARD_KEY).unwrap_or(Vec::new(&env));
             
-            // Rebuild leaderboard without the old score of solver
             let mut new_leaderboard = Vec::new(&env);
             let mut found = false;
             
@@ -91,7 +85,6 @@ impl ForgeContract {
                 new_leaderboard.push_back((solver.clone(), correct));
             }
 
-            // Bubble sort leaderboard descending
             let len = new_leaderboard.len();
             for i in 0..len {
                 for j in 0..(len - 1 - i) {
@@ -104,7 +97,6 @@ impl ForgeContract {
                 }
             }
 
-            // Keep only top 10 scores for Ironclad Quest
             while new_leaderboard.len() > 10 {
                 new_leaderboard.pop_back();
             }

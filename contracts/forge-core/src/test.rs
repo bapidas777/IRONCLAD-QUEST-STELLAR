@@ -61,6 +61,5 @@ fn test_unauthorized_submit() {
     let mut answers = Vec::new(&env);
     answers.push_back((1, String::from_str(&env, "A")));
 
-    // This should panic because player didn't authorize
     client.submit_batch(&player, &answers);
 }

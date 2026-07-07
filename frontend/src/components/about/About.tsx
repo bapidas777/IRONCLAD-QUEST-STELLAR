@@ -14,7 +14,6 @@ export default function About() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        {/* What is this app? */}
         <div className="bg-forge-iron/10 border border-forge-iron p-6 md:p-8 rounded-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <Sword size={64} />
@@ -28,7 +27,6 @@ export default function About() {
           </p>
         </div>
 
-        {/* The Reward Process */}
         <div className="bg-forge-iron/10 border border-forge-iron p-6 md:p-8 rounded-lg relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
             <Coins size={64} />
@@ -56,7 +54,6 @@ export default function About() {
           </ul>
         </div>
 
-        {/* Hackproof System */}
         <div className="bg-forge-iron/10 border border-forge-iron p-6 md:p-8 rounded-lg relative overflow-hidden group md:col-span-2">
           <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none">
             <ShieldAlert size={120} />

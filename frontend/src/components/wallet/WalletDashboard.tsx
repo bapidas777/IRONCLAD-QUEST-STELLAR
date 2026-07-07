@@ -37,7 +37,6 @@ export default function WalletDashboard({ publicKey }: { publicKey: string | nul
     
     setIsProcessing(true);
     try {
-      // Execute real transaction from Vault to User
       const txHash = await withdrawXLM(publicKey, amount);
       
       logActivity({
@@ -52,7 +51,6 @@ export default function WalletDashboard({ publicKey }: { publicKey: string | nul
       setWithdrawAmount('');
       setErrorMsg(`Successfully withdrawn ${amount.toFixed(2)} XLM!`);
       
-      // Refresh XLM balance
       getTestnetBalance(publicKey).then((bal) => setXlmBalance(bal));
       setActiveAction('none');
     } catch (err) {
@@ -74,7 +72,6 @@ export default function WalletDashboard({ publicKey }: { publicKey: string | nul
     visible: { opacity: 1, y: 0 }
   };
 
-  // Filter activities for financial transactions (Earnings & Transactions)
   const financialActivities = activities.filter(a => {
     if (!a.subtitle.includes('XLM')) return false;
     if (txFilter === 'All') return true;
@@ -107,7 +104,6 @@ export default function WalletDashboard({ publicKey }: { publicKey: string | nul
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Main Balance Card */}
         <motion.div variants={itemVariants} className="bg-forge-iron/20 border border-forge-iron rounded-xl p-8 relative overflow-hidden backdrop-blur-md">
           <Shield className="absolute -right-10 -bottom-10 text-forge-ironLight/10" size={160} />
           <div className="flex justify-between items-center mb-2">
@@ -191,7 +187,6 @@ export default function WalletDashboard({ publicKey }: { publicKey: string | nul
           </div>
         </motion.div>
 
-        {/* Financial Activity */}
         <motion.div variants={itemVariants} className="bg-forge-iron/20 border border-forge-iron rounded-xl p-6 backdrop-blur-md flex flex-col">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-forge-iron pb-4 mb-4">
             <h3 className="text-lg font-bold text-white">Earnings & Transactions</h3>

@@ -4,7 +4,7 @@
 
 **A Cinematic Web3 Quiz Experience forged on the Stellar Network using Soroban.**
 
-[![CI/CD Status](https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR/actions/workflows/ironclad-workflow.yml/badge.svg)](https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR/actions)
+[![CI/CD Status](https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR/actions/workflows/ironclad-workflow.yml/badge.svg)](https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Stellar](https://img.shields.io/badge/Network-Stellar_Testnet-black)](https://stellar.org/)
 [![Soroban](https://img.shields.io/badge/Smart_Contracts-Soroban-orange)](https://soroban.stellar.org/)
@@ -21,7 +21,7 @@
 
 *   **🌐 Live Production Link**: [https://ironclad-quest-stellar.vercel.app/](https://ironclad-quest-stellar.vercel.app/)
 *   **📹 Demo Video Presentation**: [https://youtu.be/VrlM1uB7XBk](https://youtu.be/VrlM1uB7XBk)
-*   **💻 GitHub Repository**: [https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR](https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR)
+*   **💻 GitHub Repository**: [https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR](https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR)
 
 ---
 
@@ -42,24 +42,16 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 
 ---
 
-## 🌟 Progressive Features Built for Stellar
+## 🏆 Orange Belt Requirements Mapping
 
-### 👛 Level 1: Core Connectivity & Direct Routing
-*   **Multi-Wallet Bridge**: Smooth connection and disconnection handling using the Stellar Wallets Kit (Freighter).
-*   **Balance Polling**: Real-time display of connected account balances and in-game treasury XLM.
-*   **Direct Payments**: Secure, validated transfer modules supporting entry fee payments and treasury withdrawals natively on the Stellar Testnet.
-
-### ⛓️ Level 2: Inter-Contract State Machine
-*   **Forge Contract Architecture**: 
-    *   Stores encrypted quiz batches and correct answers.
-    *   Validates submitted answers against the on-chain mapping.
-*   **Dynamic Leaderboard**: The contract utilizes a custom descending bubble-sort algorithm to strictly maintain a Top 10 leaderboard updated in real-time.
-*   **Inter-Contract Invocations**: Auto-invokes the native Stellar Asset Contract to handle the transfer of XLM when entry fees are paid.
-
-### 📡 Level 3: Event Logs, Tests, and CI/CD Pipelines
-*   **Real-time Event Logging**: The smart contract emits Soroban events for `enter` (paying fees), `correct` (answering questions), and `leader` (breaking into the high scores).
-*   **Comprehensive Testing**: Cargo Unit Tests validating lifecycle logic, answer validation, and complex leaderboard sorting.
-*   **CI/CD Pipeline**: GitHub Action workflows (`ironclad-workflow.yml`) automating contract compilation, Rust testing, and Vite production builds.
+| Requirement | Implementation |
+|-------------|----------------|
+| **Advanced Soroban Smart Contracts** | Implemented custom persistent storage for Question states, High Scores, and a complex on-chain descending bubble-sort algorithm for the Leaderboard. |
+| **Inter-contract communication** | The `forge-core` contract auto-invokes the native Stellar Asset Contract to seamlessly handle the transfer of XLM when entry fees are paid natively via the `pay_entry_fee` function. |
+| **Real-time events** | The smart contract emits Soroban events for `enter` (paying fees), `correct` (answering questions), and `leader` (breaking into the high scores). These are polled by the frontend. |
+| **Production transaction UI** | Fully optimized UX for fetching data, paying entry fees, submitting batches, and confirming transactions. Responsive layouts for both Desktop and Mobile viewports. |
+| **StellarWalletsKit integration** | Implemented multi-wallet (Freighter) connectivity using the `@creit.tech/stellar-wallets-kit` bridging capabilities. |
+| **Feature-based architecture** | Strictly separated Vite React frontend, `components/`, `data/`, global `context/`, and `lib/` for XDR and contract wrappers. |
 
 ---
 
@@ -97,6 +89,29 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 *   **Forge Core Contract ID**: `CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4`
 *   **Stellar Network**: Testnet
 *   **Example Transaction Hash**: `1055f381cc487cae37e70d6c3627dadf9da00c0337180a185127d5b1ee7c30b9`
+*   **Testnet Explorer Link (Forge Core)**: [Stellar Expert - Forge Core](https://stellar.expert/explorer/testnet/contract/CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4)
+*   **Testnet Explorer Link (Tx Hash)**: [Stellar Expert - Transaction 1055f3...](https://stellar.expert/explorer/testnet/tx/1055f381cc487cae37e70d6c3627dadf9da00c0337180a185127d5b1ee7c30b9)
+
+### Smart Contract Flow
+```mermaid
+sequenceDiagram
+    participant Player
+    participant ForgeContract
+    participant StellarToken
+    
+    Player->>ForgeContract: pay_entry_fee(amount, token)
+    ForgeContract->>StellarToken: transfer(player -> contract)
+    StellarToken-->>ForgeContract: XLM Transferred
+    ForgeContract-->>Player: Emits "enter" Event
+    
+    Player->>ForgeContract: submit_batch(answers)
+    ForgeContract->>ForgeContract: Validate against QUZS Map
+    ForgeContract-->>Player: Emits "correct" Event(s)
+    
+    ForgeContract->>ForgeContract: Update HIGH_SCORES Map
+    ForgeContract->>ForgeContract: Bubble Sort LEADERBOARD
+    ForgeContract-->>Player: Emits "leader" Event (if top 10)
+```
 
 ![Verification on Stellar Expert](./demo-img/verification-on-stellar-expert.png)
 
@@ -122,6 +137,28 @@ Our GitHub Actions workflow automatically builds the Vite React frontend, compil
 
 ---
 
+## 📁 Project Structure
+The repository is structured as a monorepo, cleanly separating the Rust smart contracts from the React frontend application:
+
+```text
+DecentralizedQuizApp-2.0/
+├── .github/workflows/       # GitHub Actions CI/CD pipelines
+├── contracts/               # Soroban Smart Contracts (Rust)
+│   └── forge-core/          # Core logic for entry fees, validation, and leaderboard
+├── frontend/                # React + Vite Web Application
+│   ├── src/
+│   │   ├── assets/          # Static assets and images
+│   │   ├── components/      # Reusable React components (UI & layout)
+│   │   ├── context/         # Global Context providers (Wallet state)
+│   │   ├── data/            # Static data mapping and configurations
+│   │   └── lib/             # Soroban integration and utility functions
+│   └── package.json         # Frontend dependencies and scripts
+├── demo-img/                # Architecture diagrams and UI screenshots
+└── scripts/                 # Deployment and setup bash scripts
+```
+
+---
+
 ## 💻 Local Installation & Getting Started
 
 ### 📋 Prerequisites
@@ -134,12 +171,13 @@ Our GitHub Actions workflow automatically builds the Vite React frontend, compil
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR.git
+   git clone https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR.git
    cd IRONCLAD-QUEST-STELLAR
    ```
 
 2. **Install Frontend Dependencies**:
    ```bash
+   cd frontend
    npm install
    ```
 
@@ -164,6 +202,6 @@ Our GitHub Actions workflow automatically builds the Vite React frontend, compil
 ---
 
 <div align="center">
-  <b>Developed with ⚔️ by Bapi Das</b><br>
-  <a href="https://github.com/bapidas777">GitHub Profile</a>
+  <b>Developed with ⚔️ by Suhan Roy</b><br>
+  <a href="https://github.com/suhanRoy">GitHub Profile</a>
 </div>

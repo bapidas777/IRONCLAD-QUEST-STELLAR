@@ -44,7 +44,6 @@ function AppContent() {
     <div className="relative min-h-screen flex flex-col bg-forge-abyssal">
       <BloodIronShader className="fixed inset-0 z-0 pointer-events-none opacity-50 mix-blend-screen" />
 
-      {/* Desktop Top Navigation */}
       <header className="z-20 w-full bg-forge-abyssal/90 border-b border-forge-iron backdrop-blur-md sticky top-0 hidden md:block">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -85,7 +84,6 @@ function AppContent() {
         </div>
       </header>
 
-      {/* Top Navbar */}
       <header className="fixed top-0 left-0 right-0 h-20 bg-black/80 backdrop-blur-md border-b border-forge-iron/50 z-50 flex items-center justify-between px-4 lg:px-8 md:hidden">
         <div className="flex items-center gap-2">
           <span className="text-forge-bloodLight font-cinematic text-sm">security</span>
@@ -107,7 +105,6 @@ function AppContent() {
         )}
       </header>
 
-      {/* Main Content Area */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-4 md:px-6 pb-32 md:pb-24 relative z-10 pt-28">
         {activeQuestId ? (
           <TrialArena 
@@ -129,7 +126,6 @@ function AppContent() {
         )}
       </main>
 
-      {/* Global Footer */}
       <footer className="z-20 w-full bg-forge-abyssal/90 border-t border-forge-iron backdrop-blur-md hidden md:block">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 opacity-70">
@@ -156,7 +152,6 @@ function AppContent() {
         </div>
       </footer>
 
-      {/* Bottom Mobile Nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-lg border-t border-forge-iron/50 z-50 flex items-center justify-evenly pb-safe h-20 px-2">
         <button onClick={() => {setActiveTab('play'); setActiveQuestId(null)}} className={`flex flex-col items-center p-2 px-4 rounded-xl transition-colors ${activeTab === 'play' && !activeQuestId ? 'bg-forge-blood text-white' : 'text-slate-400'}`}>
           <Swords size={20} />

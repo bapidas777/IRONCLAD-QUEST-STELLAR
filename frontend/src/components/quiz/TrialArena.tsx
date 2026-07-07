@@ -10,15 +10,12 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
   const { addXP, updateBalance, logActivity, recordQuizResult } = useGameState();
   const { width, height } = useWindowSize();
   
-  // Find the selected quest
   const quest = quests.find(q => q.id === questId) || quests[1];
   const questionBank = quest.questions;
   
-  // Quiz State
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState<number | null>(null);
   
-  // Session Metrics
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
   const [isEvaluating, setIsEvaluating] = useState(false);
   const [score, setScore] = useState(0);
@@ -28,7 +25,6 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
 
   const currentQuestion = questionBank[currentIndex];
 
-  // Timer logic
   useEffect(() => {
     if (isFinished) return;
     const interval = setInterval(() => {
@@ -67,7 +63,6 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
 
   const evaluateQuiz = (finalAnswers: number[]) => {
     setIsEvaluating(true);
-    // Simulate on-chain grading delay
     setTimeout(() => {
       let finalScore = 0;
       finalAnswers.forEach((ans, i) => {
@@ -118,7 +113,6 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
         </div>
       )}
 
-      {/* TOP/SIDEBAR - Live Analytics */}
       <div className="w-full lg:w-80 flex flex-col gap-4 lg:gap-6 shrink-0 z-20">
         <div className="bg-forge-iron/20 border border-forge-iron rounded-lg p-4 lg:p-6 backdrop-blur-md flex flex-col sm:flex-row lg:flex-col justify-between items-center lg:items-stretch gap-4">
           <div className="w-full sm:w-auto lg:w-full flex-1">
@@ -164,7 +158,6 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
           </div>
         </div>
 
-        {/* Environment Preview */}
         <div className="hidden lg:flex flex-col bg-forge-iron/20 border border-forge-iron rounded-lg overflow-hidden backdrop-blur-md h-48 relative">
           <div className="absolute inset-0 bg-gradient-to-t from-forge-abyssal to-transparent z-10" />
           <div className="absolute inset-0 flex items-center justify-center opacity-30">
@@ -176,9 +169,7 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
         </div>
       </div>
 
-      {/* RIGHT MAIN PANEL - Quiz Question */}
       <div className="flex-1 bg-[#111111] border-2 border-[#1a1a1a] rounded-xl relative flex flex-col p-6 lg:p-16 shadow-2xl overflow-hidden min-h-[600px] z-10">
-        {/* Red Reticle Corners */}
         <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-forge-blood" />
         <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-forge-blood" />
         <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-forge-blood" />
@@ -186,7 +177,6 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
 
         <AnimatePresence mode="wait">
           {isFinished ? (
-            // FINAL RESULTS SCREEN
             <motion.div 
               key="finished"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -261,7 +251,6 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
               <p className="text-slate-400 font-mono mb-12">Simulating on-chain grading process...</p>
             </motion.div>
           ) : (
-            // QUESTION SCREEN
             <motion.div 
               key="question"
               initial={{ opacity: 0, x: 20 }}

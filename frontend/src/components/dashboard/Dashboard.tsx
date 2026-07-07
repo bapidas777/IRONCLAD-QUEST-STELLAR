@@ -24,7 +24,6 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
 
     setPayingQuestId(questId);
     try {
-      // Send real transaction for entry fee via Freighter
       const txHash = await payEntryFee(publicKey, feeXLM);
       logActivity({
         title: 'Entry Fee Paid',
@@ -45,7 +44,6 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
 
 
 
-  // Determine progress to next rank
   const getNextRankTarget = (currentXp: number) => {
     if (currentXp < 200) return { name: 'Silver I', target: 200 };
     if (currentXp < 450) return { name: 'Gold II', target: 450 };
@@ -80,12 +78,10 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
         </div>
       )}
       
-      {/* Current Rank Card */}
       <motion.div variants={itemVariants} className="bg-forge-iron/20 border border-forge-iron rounded-xl p-6 relative overflow-hidden backdrop-blur-md hover:border-forge-ironLight transition-colors">
         <h3 className="text-xl font-bold text-white mb-6">Current Rank</h3>
         <div className="flex flex-col items-center justify-center">
           <div className="relative w-32 h-32 flex items-center justify-center">
-            {/* Circular Progress */}
             <svg className="absolute inset-0 w-full h-full transform -rotate-90">
               <circle cx="64" cy="64" r="56" fill="transparent" stroke="#2D3748" strokeWidth="8" />
               <motion.circle 
@@ -104,9 +100,7 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
         </div>
       </motion.div>
 
-      {/* Daily Streak Card */}
       <motion.div variants={itemVariants} className="bg-forge-iron/20 border border-forge-iron rounded-xl p-6 flex flex-col justify-between relative overflow-hidden backdrop-blur-md group hover:border-forge-blood/50 transition-colors">
-        {/* Ember Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-forge-blood/10 to-transparent opacity-50 z-0" />
         <motion.div 
           className="absolute -bottom-10 -right-10 w-40 h-40 bg-forge-blood/20 rounded-full blur-3xl z-0"
@@ -130,17 +124,13 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
             </div>
             
             <div className="ml-auto relative mt-[-10px]">
-              {/* Hyper-realistic fire assembly */}
               <motion.div
                 animate={{ scale: [1, 1.1, 1], rotate: [-2, 2, -2] }}
                 transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                 className="relative flex items-center justify-center w-16 h-16"
               >
-                 {/* Outer Glow */}
                  <div className="absolute inset-0 bg-orange-600/20 rounded-full blur-xl" />
-                 {/* Middle Flame */}
                  <Flame size={56} strokeWidth={0} fill="url(#fire-gradient)" className="absolute z-10 drop-shadow-[0_0_15px_rgba(255,100,0,0.8)]" />
-                 {/* Core Flame */}
                  <Flame size={24} strokeWidth={0} fill="#FFF" className="absolute z-20 top-6 drop-shadow-[0_0_10px_rgba(255,255,255,0.9)] opacity-90" />
                  
                  <svg width="0" height="0">
@@ -172,7 +162,6 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
       </motion.div>
 
 
-      {/* Combat Stats Card */}
       <motion.div variants={itemVariants} className="bg-forge-iron/20 border border-forge-iron rounded-xl p-6 relative overflow-hidden backdrop-blur-md hover:border-forge-ironLight transition-colors">
         <h3 className="text-xl font-bold text-white mb-6">Combat Stats</h3>
         <div className="flex flex-col gap-4">
@@ -191,7 +180,6 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
         </div>
       </motion.div>
 
-      {/* Available Trials */}
       <motion.div variants={itemVariants} className="md:col-span-2 lg:col-span-2 flex flex-col gap-4 bg-forge-iron/10 p-4 rounded-xl border border-forge-iron/30 h-[500px]">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shrink-0 px-2">
           <h3 className="text-xl font-bold text-white">Available Trials</h3>
@@ -259,7 +247,6 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
         </div>
       </motion.div>
 
-      {/* Recent Activity Card */}
       <motion.div variants={itemVariants} className="md:col-span-1 lg:col-span-1 bg-forge-iron/20 border border-forge-iron rounded-xl p-6 backdrop-blur-md flex flex-col h-[500px]">
         <h3 className="text-xl font-bold text-white border-b border-forge-iron pb-4 mb-4 shrink-0">Recent Activity</h3>
         <div className="flex flex-col gap-6 overflow-y-auto pr-2 flex-1 pb-4">

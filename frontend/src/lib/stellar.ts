@@ -50,7 +50,6 @@ export async function payEntryFee(publicKey: string, amountXLM: number) {
 }
 
 export async function depositXLM(publicKey: string, amountXLM: number) {
-  // Essentially the same as payEntryFee, but for manual deposits
   return payEntryFee(publicKey, amountXLM);
 }
 
@@ -81,9 +80,7 @@ export async function withdrawXLM(publicKey: string, amountXLM: number) {
   }
 }
 
-// Dummy Leaderboard fetching (since we don't have the contract actively deployed yet)
 export async function fetchLeaderboard() {
-  // In a real scenario, this would use ContractClient
   return [
     { address: "GDDW...8812", score: 9 },
     { address: "GBAJ...3K19", score: 8 },
