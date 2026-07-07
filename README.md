@@ -4,7 +4,7 @@
 
 **A Cinematic Web3 Quiz Experience forged on the Stellar Network using Soroban.**
 
-[![CI/CD Status](https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR/actions/workflows/ironclad-workflow.yml/badge.svg)](https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR/actions)
+[![CI/CD Status](https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR/actions/workflows/ironclad-workflow.yml/badge.svg)](https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Stellar](https://img.shields.io/badge/Network-Stellar_Testnet-black)](https://stellar.org/)
 [![Soroban](https://img.shields.io/badge/Smart_Contracts-Soroban-orange)](https://soroban.stellar.org/)
@@ -21,7 +21,7 @@
 
 *   **🌐 Live Production Link**: [https://ironclad-quest-stellar.vercel.app/](https://ironclad-quest-stellar.vercel.app/)
 *   **📹 Demo Video Presentation**: [https://youtu.be/VrlM1uB7XBk](https://youtu.be/VrlM1uB7XBk)
-*   **💻 GitHub Repository**: [https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR](https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR)
+*   **💻 GitHub Repository**: [https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR](https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR)
 
 ---
 
@@ -171,7 +171,7 @@ DecentralizedQuizApp-2.0/
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/suhanRoy/IRONCLAD-QUEST-STELLAR.git
+   git clone https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR.git
    cd IRONCLAD-QUEST-STELLAR
    ```
 
@@ -202,6 +202,6 @@ DecentralizedQuizApp-2.0/
 ---
 
 <div align="center">
-  <b>Developed with ⚔️ by Suhan Roy</b><br>
-  <a href="https://github.com/suhanRoy">GitHub Profile</a>
+  <b>Developed with ⚔️ by Bapi Das</b><br>
+  <a href="https://github.com/bapidas777">GitHub Profile</a>
 </div>
