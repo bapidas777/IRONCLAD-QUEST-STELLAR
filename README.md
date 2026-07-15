@@ -134,7 +134,7 @@ graph TD
 *Our dark forge aesthetic seamlessly adapts to any mobile device.*
 
 <div style="display: flex; gap: 10px;">
-  <img src="./demo-img/mobille-ui-1.png" alt="Mobile Dashboard" width="48%">
+  <img src="./demo-img/mobile-ui-1.png" alt="Mobile Dashboard" width="48%">
   <img src="./demo-img/mobile-ui-2.png" alt="Mobile Quizzes" width="48%">
 </div>
 

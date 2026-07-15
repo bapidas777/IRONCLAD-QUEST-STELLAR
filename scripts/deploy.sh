@@ -6,14 +6,14 @@ NETWORK="testnet"
 SOURCE_ACCOUNT="alice" # Your funded local identity
 
 echo "🚀 Building contract..."
-cargo build --manifest-path contracts/forge-core/Cargo.toml --target wasm32-unknown-unknown --release
+cargo build --manifest-path contracts/forge-core/Cargo.toml --target wasm32v1-none --release
 
 echo "📦 Optimizing contract..."
-stellar contract optimize --wasm target/wasm32-unknown-unknown/release/forge_core.wasm
+stellar contract optimize --wasm target/wasm32v1-none/release/forge_core.wasm
 
 echo "🚢 Deploying to Stellar $NETWORK..."
 CONTRACT_ID=$(stellar contract deploy \
-  --wasm target/wasm32-unknown-unknown/release/forge_core.optimized.wasm \
+  --wasm target/wasm32v1-none/release/forge_core.optimized.wasm \
   --source $SOURCE_ACCOUNT \
   --network $NETWORK)
 
