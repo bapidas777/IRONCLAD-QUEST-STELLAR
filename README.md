@@ -181,7 +181,7 @@ Our GitHub Actions workflow automatically builds the Vite React frontend, compil
 
 ## 🛠️ Technology Stack
 *   **Frontend**: React + Vite + TypeScript + Tailwind CSS + Framer Motion
-*   **Contracts**: Rust (Soroban SDK `20.0.1`)
+*   **Contracts**: Rust (Soroban SDK `v25.x`)
 *   **Stellar Integration**: `@creit.tech/stellar-wallets-kit`, `@stellar/freighter-api`
 *   **Testing**: Cargo test for Rust contracts
 
@@ -213,7 +213,7 @@ DecentralizedQuizApp-2.0/
 
 ### 📋 Prerequisites
 *   Node.js 20+
-*   Cargo + Rust Toolchain (with `wasm32-unknown-unknown` target)
+*   Cargo + Rust Toolchain (with `wasm32v1-none` target)
 *   Soroban CLI
 *   Freighter Wallet extension installed (or Albedo/xBull/Rabet)
 
