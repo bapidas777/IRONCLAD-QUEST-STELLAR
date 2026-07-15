@@ -42,20 +42,67 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 
 ---
 
-## 🏆 Orange Belt Requirements Mapping
+## 🏆 Stellar Belt Challenge Submission Checklist
 
-| Requirement | Implementation |
-|-------------|----------------|
-| **Advanced Soroban Smart Contracts** | Implemented custom persistent storage for Question states, High Scores, and a complex on-chain descending bubble-sort algorithm for the Leaderboard. |
-| **Inter-contract communication** | The `forge-core` contract auto-invokes the native Stellar Asset Contract to seamlessly handle the transfer of XLM when entry fees are paid natively via the `pay_entry_fee` function. |
-| **Real-time events** | The smart contract emits Soroban events for `enter` (paying fees), `correct` (answering questions), and `leader` (breaking into the high scores). These are polled by the frontend. |
-| **Production transaction UI** | Fully optimized UX for fetching data, paying entry fees, submitting batches, and confirming transactions. Responsive layouts for both Desktop and Mobile viewports. |
-| **StellarWalletsKit integration** | Implemented multi-wallet (Freighter) connectivity using the `@creit.tech/stellar-wallets-kit` bridging capabilities. |
-| **Feature-based architecture** | Strictly separated Vite React frontend, `components/`, `data/`, global `context/`, and `lib/` for XDR and contract wrappers. |
+### ⚪️ Level 1 - White Belt Submission
+
+| Requirement | Status & Implementation Details |
+| :--- | :--- |
+| **Wallet Setup** | ✅ Integrated StellarWalletsKit exclusively on Testnet |
+| **Wallet Connection** | ✅ Unified UI component for seamless connect/disconnect |
+| **Balance Handling** | ✅ Fetches and clearly displays XLM balance on dashboard and mobile |
+| **Transaction Flow** | ✅ UI shows success/failure states when paying entry fees or submitting answers |
+| **Development Standards** | ✅ High-quality UI, fluid Framer Motion animations, and error handling |
+| **Required Deliverables** | ✅ Repo, README, Setup instructions, and 4 required Screenshots |
+
+### 🟡 Level 2 - Yellow Belt Submission
+
+| Requirement | Status & Implementation Details |
+| :--- | :--- |
+| **3 Error Types Handled** | ✅ Wallet rejection, Quiz submission failures, Balance insufficiencies |
+| **Contract Deployed** | ✅ `forge-core` Soroban contract deployed on Testnet |
+| **Contract Called** | ✅ Frontend successfully calls the deployed smart contracts for entry fees and scoring |
+| **Tx Status Visible** | ✅ UI models and toasts confirm on-chain execution for paying and playing |
+| **Meaningful Commits** | ✅ Repository contains robust and meaningful commit history |
+| **Deliverable Met** | ✅ Multi-wallet app with deployed contract and gamified mechanics |
+| **Required Deliverables** | ✅ Live demo, Multi-wallet screenshot, Verifiable Tx Hash |
+
+### 🟠 Level 3 - Orange Belt Submission
+
+| Requirement | Status & Implementation Details |
+| :--- | :--- |
+| **Advanced Contracts** | ✅ Persistent storage for Question states, High Scores, and a complex on-chain descending bubble-sort algorithm for the Leaderboard. |
+| **Inter-Contract Comm** | ✅ The `forge-core` contract auto-invokes the native Stellar Asset Contract to handle XLM transfers natively. |
+| **Event Streaming** | ✅ The smart contract emits Soroban events (`enter`, `correct`, `leader`). |
+| **Production transaction UI** | ✅ Fully optimized UX for fetching data, paying fees, and submitting batches. |
+| **StellarWalletsKit integration** | ✅ Implemented multi-wallet (Freighter, Albedo, xBull, Rabet) connectivity using the `@creit.tech/stellar-wallets-kit`. |
+| **Feature-based architecture** | ✅ Strictly separated Vite React frontend, components, contexts, and lib for XDR. |
+
+---
+
+## 🏗️ High-Level System Architecture
+
+```mermaid
+graph TD
+    User([Player / Challenger]) -->|Interacts| UI[React Vite Frontend]
+    UI -->|Connects Wallet| SWK[StellarWalletsKit]
+    UI -->|Reads/Submits Txs| RPC[Soroban RPC]
+    
+    subgraph Stellar Network [Stellar Testnet]
+        RPC -->|Invokes| Contract[Forge Core Contract]
+        Contract -->|Cross-Contract Call| NativeAsset[Stellar Native Asset Contract]
+    end
+```
 
 ---
 
 ## 📸 Interface Showcase
+
+### 🧰 Multi-Wallet Support
+*Seamlessly connect using your preferred Stellar wallet via StellarWalletsKit. We support Freighter, Albedo, xBull, and Rabet out of the box.*
+<div align="center">
+  <img src="./demo-img/multi-wallet.png" alt="Multi Wallet Options" width="800"/>
+</div>
 
 ### Desktop Experience
 
@@ -77,7 +124,7 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 *Our dark forge aesthetic seamlessly adapts to any mobile device.*
 
 <div style="display: flex; gap: 10px;">
-  <img src="./demo-img/mobile-ui-1.png" alt="Mobile Dashboard" width="48%">
+  <img src="./demo-img/mobille-ui-1.png" alt="Mobile Dashboard" width="48%">
   <img src="./demo-img/mobile-ui-2.png" alt="Mobile Quizzes" width="48%">
 </div>
 
@@ -165,7 +212,15 @@ DecentralizedQuizApp-2.0/
 *   Node.js 20+
 *   Cargo + Rust Toolchain (with `wasm32-unknown-unknown` target)
 *   Soroban CLI
-*   Freighter Wallet extension installed
+*   Freighter Wallet extension installed (or Albedo/xBull/Rabet)
+
+### ⚙️ Environment Variables
+Create a `.env` file in the `frontend` directory:
+```env
+VITE_SOROBAN_RPC_URL="https://soroban-testnet.stellar.org"
+VITE_SOROBAN_NETWORK_PASSPHRASE="Test SDF Network ; September 2015"
+VITE_FORGE_CORE_CONTRACT_ID="CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4"
+```
 
 ### 🛠️ Step-by-Step Setup
 
@@ -198,6 +253,15 @@ DecentralizedQuizApp-2.0/
    chmod +x scripts/deploy.sh
    ./scripts/deploy.sh
    ```
+
+---
+
+## 🔒 Security Considerations
+
+- **Secure Treasury Transfers**: XLM entry fees are strictly verified via native token authorization before attempting any quiz logic, preventing bypass attacks.
+- **On-Chain Leaderboard Sorting**: The high-score algorithm sorts natively within the contract, meaning no external script can spoof or manipulate top rank submissions.
+- **Wallet Security**: Uses `StellarWalletsKit` to ensure private keys never touch the DOM or React state. All signing is delegated entirely to the user's secure wallet extension.
+- **Reentrancy Protection**: State is carefully modified and validated in sequence during quiz submissions, limiting surface areas for reentrancy attacks.
 
 ---
 

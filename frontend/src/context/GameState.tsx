@@ -100,7 +100,7 @@ export const GameStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const connectWallet = async () => {
     try {
       const { StellarWalletsKit } = await import('@creit.tech/stellar-wallets-kit');
-      const { address } = await StellarWalletsKit.fetchAddress();
+      const { address } = await StellarWalletsKit.authModal();
       setPublicKey(address);
       localStorage.setItem('forge_wallet', address);
     } catch (error) {

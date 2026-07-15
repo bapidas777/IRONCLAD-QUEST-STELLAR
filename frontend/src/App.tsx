@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { StellarWalletsKit, Networks } from '@creit.tech/stellar-wallets-kit';
-import { FreighterModule, FREIGHTER_ID } from '@creit.tech/stellar-wallets-kit/modules/freighter';
+import { FreighterModule } from '@creit.tech/stellar-wallets-kit/modules/freighter';
+import { AlbedoModule } from '@creit.tech/stellar-wallets-kit/modules/albedo';
+import { xBullModule } from '@creit.tech/stellar-wallets-kit/modules/xbull';
+import { RabetModule } from '@creit.tech/stellar-wallets-kit/modules/rabet';
 import { Swords, Medal, Wallet, Info } from 'lucide-react';
 import { GameStateProvider, useGameState } from './context/GameState';
 import BloodIronShader from './components/BloodIronShader';
@@ -21,9 +24,15 @@ function AppContent() {
   
   useEffect(() => {
     if (!isKitInitialized) {
-      StellarWalletsKit.init({ modules: [new FreighterModule()] });
+      StellarWalletsKit.init({ 
+        modules: [
+          new FreighterModule(),
+          new AlbedoModule(),
+          new xBullModule(),
+          new RabetModule()
+        ] 
+      });
       StellarWalletsKit.setNetwork(Networks.TESTNET);
-      StellarWalletsKit.setWallet(FREIGHTER_ID);
       isKitInitialized = true;
     }
   }, []);
@@ -84,22 +93,30 @@ function AppContent() {
         </div>
       </header>
 
-      <header className="fixed top-0 left-0 right-0 h-20 bg-black/80 backdrop-blur-md border-b border-forge-iron/50 z-50 flex items-center justify-between px-4 lg:px-8 md:hidden">
-        <div className="flex items-center gap-2">
-          <span className="text-forge-bloodLight font-cinematic text-sm">security</span>
-          <span className="text-white font-bold tracking-widest text-lg font-cinematic">IRONCLAD</span>
+      <header className="fixed top-0 left-0 right-0 h-20 bg-black/80 backdrop-blur-md border-b border-forge-iron/50 z-50 flex items-center justify-between px-3 lg:px-8 md:hidden">
+        <div className="flex items-center gap-1.5 shrink-0">
+          <span className="text-forge-bloodLight font-bold tracking-widest text-xs sm:text-sm font-cinematic">IRONCLAD</span>
+          <span className="text-white font-bold tracking-widest text-xs sm:text-sm font-cinematic flex items-center gap-1">
+            <svg width="8" height="14" viewBox="0 0 24 48" className="animate-sword-shine mx-0.5">
+              <path d="M12 0 L15 8 L15 36 L12 40 L9 36 L9 8 Z" fill="#e2e8f0" />
+              <path d="M12 0 L9 8 L9 36 L12 40 Z" fill="#94a3b8" />
+              <path d="M4 36 L20 36 L20 40 L15 40 L15 44 L9 44 L9 40 L4 40 Z" fill="#475569" />
+              <circle cx="12" cy="46" r="2" fill="#94a3b8" />
+            </svg> 
+            STELLAR
+          </span>
         </div>
         {publicKey ? (
-          <div className="flex items-center gap-3">
-            <span className="text-forge-copperGlow font-bold text-xs font-mono bg-forge-iron/20 px-2 py-1 rounded border border-forge-iron/50">
-              {parseFloat(walletXLM).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} XLM
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="text-forge-copperGlow font-bold text-[9px] sm:text-[10px] font-mono bg-forge-iron/20 px-1.5 py-1 rounded border border-forge-iron/50 whitespace-nowrap">
+              {parseFloat(walletXLM).toLocaleString('en-US', {minimumFractionDigits: 1, maximumFractionDigits: 1})} XLM
             </span>
-            <button onClick={disconnectWallet} title="Click to disconnect" className="px-3 py-1 border border-forge-iron rounded bg-forge-ironLight text-xs font-mono text-slate-300 hover:border-forge-blood transition-colors cursor-pointer">
+            <button onClick={disconnectWallet} title="Click to disconnect" className="px-1.5 py-1 border border-forge-iron rounded bg-forge-ironLight text-[9px] sm:text-[10px] font-mono text-slate-300 hover:border-forge-blood transition-colors cursor-pointer truncate max-w-[60px] sm:max-w-[80px]">
               {formatAddress(publicKey)}
             </button>
           </div>
         ) : (
-          <button onClick={connectWallet} className="text-xs text-forge-bloodLight font-bold border border-forge-bloodLight px-2 py-1 rounded">
+          <button onClick={connectWallet} className="text-[10px] sm:text-xs text-forge-bloodLight font-bold border border-forge-bloodLight px-2 py-1 rounded whitespace-nowrap shrink-0">
             Connect
           </button>
         )}
