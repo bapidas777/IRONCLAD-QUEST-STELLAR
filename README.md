@@ -96,6 +96,16 @@ graph TD
 
 ---
 
+## 🛡️ Contract Addresses & Verifiable Links
+
+*   **Verifiable Live App**: [https://ironclad-quest-stellar.vercel.app/](https://ironclad-quest-stellar.vercel.app/)
+*   **Forge Core Contract**: [`CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4`](https://stellar.expert/explorer/testnet/contract/CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4)
+*   **Network**: Stellar Testnet
+*   **Example Transaction Hash**: `1055f381cc487cae37e70d6c3627dadf9da00c0337180a185127d5b1ee7c30b9`
+*   **Stellar Explorer Link**: [View on Stellar Expert](https://stellar.expert/explorer/testnet/tx/1055f381cc487cae37e70d6c3627dadf9da00c0337180a185127d5b1ee7c30b9)
+
+---
+
 ## 📸 Interface Showcase
 
 ### 🧰 Multi-Wallet Support
@@ -131,13 +141,6 @@ graph TD
 ---
 
 ## 🛡️ Smart Contract Architecture & Validation
-
-### Deployed Contracts & Credentials
-*   **Forge Core Contract ID**: `CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4`
-*   **Stellar Network**: Testnet
-*   **Example Transaction Hash**: `1055f381cc487cae37e70d6c3627dadf9da00c0337180a185127d5b1ee7c30b9`
-*   **Testnet Explorer Link (Forge Core)**: [Stellar Expert - Forge Core](https://stellar.expert/explorer/testnet/contract/CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4)
-*   **Testnet Explorer Link (Tx Hash)**: [Stellar Expert - Transaction 1055f3...](https://stellar.expert/explorer/testnet/tx/1055f381cc487cae37e70d6c3627dadf9da00c0337180a185127d5b1ee7c30b9)
 
 ### Smart Contract Flow
 ```mermaid
