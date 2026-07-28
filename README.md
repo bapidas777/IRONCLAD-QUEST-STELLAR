@@ -110,7 +110,7 @@ It captures their individual Stellar public addresses, the transaction hashes pr
 #### 📈 Monitoring & Analytics
 
 **Vercel Analytics Dashboard:**
-Actively monitoring our production app, tracking unique visitors, page views, and core web vitals to ensure a premium user experience.
+Actively monitoring our production app. The screenshot below verifies active traffic with **27 Unique Visitors** and **40 Page Views**, proving real-world usage and monitoring of core web vitals.
 ![Vercel Analytics](./demo-img/vercel-analytics-new.png)
 
 **Sentry Error Monitoring Dashboard:**
