@@ -107,7 +107,7 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 #### 📈 Monitoring & Analytics
 
 *   *Vercel Analytics Dashboard:*
-![Vercel Analytics](./demo-img/vercel-Analytics.png)
+![Vercel Analytics](./demo-img/vercel-analytics-new.png)
 *   *Sentry Error Monitoring Dashboard:*
 ![Sentry Dashboard](./demo-img/sentry-dashboard.png)
 
