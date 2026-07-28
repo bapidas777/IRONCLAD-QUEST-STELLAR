@@ -101,7 +101,7 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 
 *   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform?usp=publish-editor)
 *   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?usp=sharing)
-*   *Proof of 10+ user wallet interactions on Stellar Testnet:* ![Stellar Expert Verification](./demo-img/verification-on-stellar-expert.png)
+*   *Proof of 10+ user wallet interactions on Stellar Testnet:* `[Screenshot pending...]`
 
 #### 📈 Monitoring & Analytics
 
