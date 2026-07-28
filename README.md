@@ -101,10 +101,8 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 
 *   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform?usp=publish-editor)
 *   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?usp=sharing)
-*   *Proof of 10+ user wallet interactions:* 
+*   *Proof of 10+ user wallet interactions & Feedback Summary:* 
 ![User Feedback & Onboarding Proof](./demo-img/10+user-interacion.png)
-*   *Feedback Summary:*
-![Feedback Summary](./demo-img/feedback-summary.png)
 
 #### 📈 Monitoring & Analytics
 
