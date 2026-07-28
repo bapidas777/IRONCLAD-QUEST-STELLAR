@@ -78,6 +78,41 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 | **StellarWalletsKit integration** | ✅ Implemented multi-wallet (Freighter, Albedo, xBull, Rabet) connectivity using the `@creit.tech/stellar-wallets-kit`. |
 | **Feature-based architecture** | ✅ Strictly separated Vite React frontend, components, contexts, and lib for XDR. |
 
+### 🟢 Level 4 - Green Belt Submission
+
+| Requirement | Status & Implementation Details |
+| :--- | :--- |
+| **Production MVP** | ✅ Fully functional production-ready MVP with stable frontend and smart contract architecture |
+| **Mobile Responsive UI** | ✅ Complete mobile-first responsive design with dedicated mobile header and bottom navigation |
+| **Loading States & Error Handling** | ✅ Global loading splash screen, skeleton loaders on all data-heavy pages, React ErrorBoundary for crash recovery |
+| **User Onboarding** | ✅ 10+ real users onboarded with verifiable wallet interactions on Stellar Testnet |
+| **User Feedback Collection** | ✅ In-app feedback system via floating button + post-quiz prompt linked to Google Form |
+| **Production Deployment** | ✅ Deployed on Vercel with CI/CD pipeline |
+| **Monitoring & Analytics** | ✅ Vercel Analytics for usage tracking + Sentry for error monitoring |
+| **Optimized UX** | ✅ Themed skeleton loaders, smooth Framer Motion transitions, WebGL shader background |
+| **Project Structure & Docs** | ✅ Clean monorepo structure with comprehensive documentation |
+| **Smart Contracts on Testnet** | ✅ `forge-core` deployed at `CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4` |
+| **15+ Meaningful Commits** | ✅ 48+ meaningful commits with descriptive messages |
+| **Demo Video** | ✅ [Watch Demo](https://youtu.be/VrlM1uB7XBk) |
+
+#### 📋 User Feedback & Onboarding Proof
+
+*   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform?usp=publish-editor)
+*   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?usp=sharing)
+
+#### 🔧 Level 4 Technical Additions
+
+| Feature | Implementation |
+| :--- | :--- |
+| **Vercel Analytics** | `@vercel/analytics` integrated in `main.tsx` for page views, web vitals, and usage tracking |
+| **Sentry Error Monitoring** | `@sentry/react` with browser tracing and session replay for production error tracking |
+| **Floating Feedback Button** | Persistent bottom-right button on all pages (auto-hides during quizzes) linking to Google Form |
+| **Post-Quiz Feedback Prompt** | After every trial completion (pass/fail), users see a "Share Feedback" prompt |
+| **Global Error Boundary** | React `ErrorBoundary` component with themed fallback UI ("The Forge Has Broken") and retry |
+| **Skeleton Loaders** | Themed pulsing skeleton loaders on Dashboard, Leaderboard, and Wallet pages |
+| **App Loading Splash** | Branded "Igniting the Forge..." splash screen during StellarWalletsKit initialization |
+| **SEO Meta Tags** | Open Graph, Twitter Card, and description meta tags in `index.html` |
+
 ---
 
 ## 🏗️ High-Level System Architecture

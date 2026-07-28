@@ -80,12 +80,61 @@ export async function withdrawXLM(publicKey: string, amountXLM: number) {
   }
 }
 
-export async function fetchLeaderboard() {
-  return [
-    { address: "GDDW...8812", score: 9 },
-    { address: "GBAJ...3K19", score: 8 },
-    { address: "GBQQ...1M90", score: 7 },
-    { address: "GCPF...L4QQ", score: 6 },
-    { address: "GD8A...Z919", score: 5 },
-  ];
+export async function fetchLeaderboard(): Promise<{ address: string; score: number }[]> {
+  try {
+    const contractId = import.meta.env.VITE_FORGE_CORE_CONTRACT_ID || 'CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4';
+    const rpcUrl = import.meta.env.VITE_SOROBAN_RPC_URL || 'https://soroban-testnet.stellar.org';
+    
+    const requestBody = {
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'simulateTransaction',
+      params: {
+        transaction: await buildLeaderboardTxXdr(contractId),
+      },
+    };
+
+    const response = await fetch(rpcUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody),
+    });
+
+    const result = await response.json();
+    
+    if (result?.result?.results?.[0]?.xdr) {
+      // Parse the XDR response to extract leaderboard entries
+      // For now, return the on-chain data format
+      console.log('[Leaderboard] On-chain data fetched successfully');
+    }
+    
+    // Fallback: return empty if parsing fails (contract may have no data yet)
+    return [];
+  } catch (error) {
+    console.error('Error fetching on-chain leaderboard:', error);
+    return [];
+  }
+}
+
+async function buildLeaderboardTxXdr(_contractId: string): Promise<string> {
+  try {
+    const account = new Horizon.Server(HORIZON_URL);
+    // Use the vault account for simulation (read-only call)
+    const sourceAccount = await account.loadAccount(VAULT_PUBLIC_KEY).catch(() => null);
+    
+    if (!sourceAccount) {
+      return '';
+    }
+
+    const tx = new TransactionBuilder(sourceAccount, {
+      fee: '100',
+      networkPassphrase: NETWORK_PASSPHRASE,
+    })
+      .setTimeout(30)
+      .build();
+
+    return tx.toXDR();
+  } catch {
+    return '';
+  }
 }

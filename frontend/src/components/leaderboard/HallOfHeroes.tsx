@@ -1,7 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useGameState } from '../../context/GameState';
 import { User, Crown, TrendingDown, TrendingUp, Minus } from 'lucide-react';
+import LoadingSkeleton from '../LoadingSkeleton';
 
 type Hero = {
   address: string;
@@ -25,6 +26,13 @@ const dummyHeroes: Hero[] = [
 
 export default function HallOfHeroes() {
   const { publicKey, xp } = useGameState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate data fetch / contract query delay
+    const timer = setTimeout(() => setIsLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -64,6 +72,20 @@ export default function HallOfHeroes() {
         </h2>
         <p className="text-slate-400 font-mono text-sm md:text-base">Forged in the fires of knowledge.</p>
       </div>
+
+      {isLoading ? (
+        <div className="w-full flex flex-col gap-6 mt-8">
+          <div className="flex items-end justify-center gap-4 h-64 px-4">
+            <LoadingSkeleton variant="stat-card" className="w-1/3" />
+            <LoadingSkeleton variant="stat-card" className="w-1/3" />
+            <LoadingSkeleton variant="stat-card" className="w-1/3" />
+          </div>
+          <div className="bg-forge-abyssal border border-forge-iron rounded overflow-hidden">
+            <div className="h-1 w-full bg-forge-iron/30" />
+            <LoadingSkeleton variant="table-row" count={5} />
+          </div>
+        </div>
+      ) : (
 
       <motion.div 
         variants={containerVariants}
@@ -172,6 +194,7 @@ export default function HallOfHeroes() {
           </div>
         </motion.div>
       </motion.div>
+      )}
     </div>
   );
 }

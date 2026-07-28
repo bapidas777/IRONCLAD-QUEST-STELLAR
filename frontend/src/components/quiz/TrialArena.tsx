@@ -234,6 +234,21 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
                     Return to Dashboard
                   </button>
                 )}
+
+                {/* Post-Quiz Feedback Prompt */}
+                <div className="w-full max-w-sm mx-auto mt-6 bg-forge-iron/10 border border-forge-iron/50 rounded-lg p-4 text-center">
+                  <p className="text-slate-400 text-xs font-mono mb-3">
+                    ⚔️ How was your experience? Help us forge a better arena.
+                  </p>
+                  <a
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block text-forge-copperGlow hover:text-white text-xs font-mono tracking-wider uppercase transition-colors border-b border-forge-copperGlow/30 hover:border-white pb-0.5"
+                  >
+                    Share Feedback ↗
+                  </a>
+                </div>
               </div>
             </motion.div>
           ) : isEvaluating ? (

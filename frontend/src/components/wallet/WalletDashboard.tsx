@@ -3,6 +3,7 @@ import { Shield, RefreshCw, Wallet, ArrowUpRight, ArrowDownLeft, AlertCircle, Ex
 import { useGameState } from '../../context/GameState';
 import { useState, useEffect } from 'react';
 import { getTestnetBalance, withdrawXLM } from '../../lib/stellar';
+import LoadingSkeleton from '../LoadingSkeleton';
 
 export default function WalletDashboard({ publicKey }: { publicKey: string | null }) {
   const { balanceXLM, setRealBalance, logActivity, activities } = useGameState();
@@ -23,6 +24,31 @@ export default function WalletDashboard({ publicKey }: { publicKey: string | nul
       }).catch(() => setIsFetchingXlm(false));
     }
   }, [publicKey]);
+
+  if (!publicKey) {
+    return (
+      <div className="w-full max-w-4xl mx-auto text-center py-20">
+        <Wallet className="mx-auto text-forge-iron mb-6" size={48} />
+        <h2 className="text-2xl font-bold text-white font-cinematic mb-3">Connect Your Wallet</h2>
+        <p className="text-slate-400 font-mono text-sm">Connect your Stellar wallet to view your earnings and transaction history.</p>
+      </div>
+    );
+  }
+
+  if (isFetchingXlm && activities.length === 0) {
+    return (
+      <div className="w-full max-w-4xl mx-auto flex flex-col gap-6">
+        <div className="flex items-center gap-3 mb-2">
+          <Wallet className="text-forge-bloodLight" size={28} />
+          <h2 className="text-2xl font-bold text-white font-cinematic">Wallet & Earnings</h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <LoadingSkeleton variant="stat-card" />
+          <LoadingSkeleton variant="card" />
+        </div>
+      </div>
+    );
+  }
 
 
 

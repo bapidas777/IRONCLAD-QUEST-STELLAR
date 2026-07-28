@@ -12,6 +12,8 @@ import TrialArena from './components/quiz/TrialArena';
 import HallOfHeroes from './components/leaderboard/HallOfHeroes';
 import WalletDashboard from './components/wallet/WalletDashboard';
 import About from './components/about/About';
+import ErrorBoundary from './components/ErrorBoundary';
+import FeedbackButton from './components/FeedbackButton';
 import { getTestnetBalance } from './lib/stellar';
 
 let isKitInitialized = false;
@@ -21,6 +23,7 @@ function AppContent() {
   const [activeTab, setActiveTab] = useState<'play' | 'rank' | 'wallet' | 'profile' | 'about'>('play');
   const [activeQuestId, setActiveQuestId] = useState<string | null>(null);
   const [walletXLM, setWalletXLM] = useState<string>('0');
+  const [isAppReady, setIsAppReady] = useState(false);
   
   useEffect(() => {
     if (!isKitInitialized) {
@@ -35,6 +38,9 @@ function AppContent() {
       StellarWalletsKit.setNetwork(Networks.TESTNET);
       isKitInitialized = true;
     }
+    // Brief delay for initialization then show the app
+    const timer = setTimeout(() => setIsAppReady(true), 600);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -48,6 +54,24 @@ function AppContent() {
 
 
   const formatAddress = (addr: string) => `${addr.slice(0, 4)}...${addr.slice(-3)}`;
+
+  if (!isAppReady) {
+    return (
+      <div className="min-h-screen bg-forge-abyssal flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-16 h-16 rounded-full border-2 border-forge-blood/50 flex items-center justify-center animate-pulse">
+            <svg width="20" height="36" viewBox="0 0 24 48" className="animate-sword-shine">
+              <path d="M12 0 L15 8 L15 36 L12 40 L9 36 L9 8 Z" fill="#e2e8f0" />
+              <path d="M12 0 L9 8 L9 36 L12 40 Z" fill="#94a3b8" />
+              <path d="M4 36 L20 36 L20 40 L15 40 L15 44 L9 44 L9 40 L4 40 Z" fill="#475569" />
+              <circle cx="12" cy="46" r="2" fill="#94a3b8" />
+            </svg>
+          </div>
+          <span className="text-forge-bloodLight font-cinematic tracking-widest text-sm animate-pulse">IGNITING THE FORGE...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen flex flex-col bg-forge-abyssal">
@@ -187,14 +211,18 @@ function AppContent() {
           <span className="text-[10px] mt-1 font-medium">About</span>
         </button>
       </nav>
+
+      <FeedbackButton hide={!!activeQuestId} />
     </div>
   );
 }
 
 export default function App() {
   return (
-    <GameStateProvider>
-      <AppContent />
-    </GameStateProvider>
+    <ErrorBoundary>
+      <GameStateProvider>
+        <AppContent />
+      </GameStateProvider>
+    </ErrorBoundary>
   );
 }

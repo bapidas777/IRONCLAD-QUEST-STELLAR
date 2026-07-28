@@ -2,14 +2,21 @@ import { motion } from 'framer-motion';
 import { useGameState } from '../../context/GameState';
 import { Shield, Flame, CheckCircle, Swords, RefreshCw, AlertCircle, ExternalLink } from 'lucide-react';
 import { payEntryFee } from '../../lib/stellar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { quests } from '../../data/quests';
+import LoadingSkeleton from '../LoadingSkeleton';
 
 export default function Dashboard({ publicKey, onStartQuest }: { publicKey: string | null, onStartQuest: (id: string) => void }) {
   const { xp, rank, streak, activities, quizzesPlayed, quizzesWon, logActivity } = useGameState();
   const [payingQuestId, setPayingQuestId] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredQuests = quests.filter(q => difficultyFilter === 'All' || q.difficulty === difficultyFilter);
 
@@ -77,7 +84,15 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
           <AlertCircle size={16} /> {errorMsg}
         </div>
       )}
-      
+
+      {isLoading ? (
+        <>
+          <LoadingSkeleton variant="stat-card" />
+          <LoadingSkeleton variant="stat-card" />
+          <LoadingSkeleton variant="stat-card" />
+        </>
+      ) : (
+        <>
       <motion.div variants={itemVariants} className="bg-forge-iron/20 border border-forge-iron rounded-xl p-6 relative overflow-hidden backdrop-blur-md hover:border-forge-ironLight transition-colors">
         <h3 className="text-xl font-bold text-white mb-6">Current Rank</h3>
         <div className="flex flex-col items-center justify-center">
@@ -287,6 +302,7 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
           ))}
         </div>
       </motion.div>
+      </>)}
 
     </motion.div>
   );
