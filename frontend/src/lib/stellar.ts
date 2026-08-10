@@ -5,9 +5,7 @@ const HORIZON_URL = "https://horizon-testnet.stellar.org";
 const server = new Horizon.Server(HORIZON_URL);
 const NETWORK_PASSPHRASE = Networks.TESTNET;
 
-export const VAULT_PUBLIC_KEY = "GBYRQIA7E755YDZ3KWKFUTCPLWGE3R5BLIPWK3SHZV4IDJWLUBEUQDHF";
-const VAULT_SECRET_KEY = "SBBQY4JT5YLE77QCGAUVHWYEQ7KA6TH6QAGHL6ZEDH34JUPHM5IOKVFM";
-const vaultKeypair = Keypair.fromSecret(VAULT_SECRET_KEY);
+// Vault keys have been completely removed from the frontend for security.
 
 export async function getTestnetBalance(publicKey: string): Promise<string> {
   try {
@@ -21,32 +19,7 @@ export async function getTestnetBalance(publicKey: string): Promise<string> {
 }
 
 export async function payEntryFee(publicKey: string, amountXLM: number) {
-  try {
-    const sourceAccount = await server.loadAccount(publicKey);
-    
-    const transaction = new TransactionBuilder(sourceAccount, {
-      fee: "1000",
-      networkPassphrase: NETWORK_PASSPHRASE,
-    })
-    .addOperation(
-      Operation.payment({
-        destination: VAULT_PUBLIC_KEY,
-        asset: Asset.native(),
-        amount: amountXLM.toFixed(7),
-      })
-    )
-    .setTimeout(30)
-    .build();
-
-    const signedTxResponse = await signTransaction(transaction.toXDR(), { networkPassphrase: NETWORK_PASSPHRASE });
-    if (signedTxResponse.error) throw new Error(signedTxResponse.error as string);
-    const tx = TransactionBuilder.fromXDR(signedTxResponse.signedTxXdr, NETWORK_PASSPHRASE);
-    const result = await server.submitTransaction(tx);
-    return result.hash;
-  } catch (error) {
-    console.error("Error paying entry fee:", error);
-    throw error;
-  }
+  throw new Error("payEntryFee must be routed through the smart contract");
 }
 
 export async function depositXLM(publicKey: string, amountXLM: number) {
@@ -54,30 +27,7 @@ export async function depositXLM(publicKey: string, amountXLM: number) {
 }
 
 export async function withdrawXLM(publicKey: string, amountXLM: number) {
-  try {
-    const sourceAccount = await server.loadAccount(VAULT_PUBLIC_KEY);
-    
-    const transaction = new TransactionBuilder(sourceAccount, {
-      fee: "1000",
-      networkPassphrase: NETWORK_PASSPHRASE,
-    })
-    .addOperation(
-      Operation.payment({
-        destination: publicKey,
-        asset: Asset.native(),
-        amount: amountXLM.toFixed(7),
-      })
-    )
-    .setTimeout(30)
-    .build();
-
-    transaction.sign(vaultKeypair);
-    const result = await server.submitTransaction(transaction);
-    return result.hash;
-  } catch (error) {
-    console.error("Error withdrawing DQT:", error);
-    throw error;
-  }
+  throw new Error("withdrawXLM must be routed through the smart contract");
 }
 
 export async function fetchLeaderboard(): Promise<{ address: string; score: number }[]> {
@@ -117,24 +67,5 @@ export async function fetchLeaderboard(): Promise<{ address: string; score: numb
 }
 
 async function buildLeaderboardTxXdr(_contractId: string): Promise<string> {
-  try {
-    const account = new Horizon.Server(HORIZON_URL);
-    // Use the vault account for simulation (read-only call)
-    const sourceAccount = await account.loadAccount(VAULT_PUBLIC_KEY).catch(() => null);
-    
-    if (!sourceAccount) {
-      return '';
-    }
-
-    const tx = new TransactionBuilder(sourceAccount, {
-      fee: '100',
-      networkPassphrase: NETWORK_PASSPHRASE,
-    })
-      .setTimeout(30)
-      .build();
-
-    return tx.toXDR();
-  } catch {
-    return '';
-  }
+  return '';
 }
