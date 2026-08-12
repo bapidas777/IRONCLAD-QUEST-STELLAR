@@ -33,6 +33,32 @@ impl ForgeContract {
         env.storage().instance().set(&DataKey::Admin, &admin);
         env.storage().instance().set(&DataKey::Token, &token);
     }
+
+    pub fn configure_quiz(
+        env: Env,
+        admin: Address,
+        quiz_id: Symbol,
+        entry_fee: i128,
+        reward: i128,
+        questions: Vec<(u32, BytesN<32>)>,
+    ) {
+        admin.require_auth();
+        
+        let stored_admin: Address = env.storage().instance().get(&DataKey::Admin).expect("not initialized");
+        if admin != stored_admin {
+            panic!("unauthorized");
+        }
+
+        let config = QuizConfig { entry_fee, reward };
+        env.storage().instance().set(&DataKey::QuizConfig(quiz_id.clone()), &config);
+
+        let mut q_map: Map<u32, BytesN<32>> = Map::new(&env);
+        for item in questions.iter() {
+            let (q_id, hash) = item;
+            q_map.set(q_id, hash);
+        }
+        env.storage().instance().set(&DataKey::QuizQuestions(quiz_id), &q_map);
+    }
 }
 
 #[cfg(test)]
