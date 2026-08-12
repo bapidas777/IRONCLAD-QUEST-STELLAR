@@ -59,6 +59,28 @@ impl ForgeContract {
         }
         env.storage().instance().set(&DataKey::QuizQuestions(quiz_id), &q_map);
     }
+
+    pub fn fund_treasury(env: Env, admin: Address, amount: i128) {
+        admin.require_auth();
+        let stored_admin: Address = env.storage().instance().get(&DataKey::Admin).expect("not initialized");
+        if admin != stored_admin {
+            panic!("unauthorized");
+        }
+        let token_addr: Address = env.storage().instance().get(&DataKey::Token).expect("not initialized");
+        let token_client = token::Client::new(&env, &token_addr);
+        token_client.transfer(&admin, &env.current_contract_address(), &amount);
+    }
+
+    pub fn withdraw_treasury(env: Env, admin: Address, amount: i128) {
+        admin.require_auth();
+        let stored_admin: Address = env.storage().instance().get(&DataKey::Admin).expect("not initialized");
+        if admin != stored_admin {
+            panic!("unauthorized");
+        }
+        let token_addr: Address = env.storage().instance().get(&DataKey::Token).expect("not initialized");
+        let token_client = token::Client::new(&env, &token_addr);
+        token_client.transfer(&env.current_contract_address(), &admin, &amount);
+    }
 }
 
 #[cfg(test)]
