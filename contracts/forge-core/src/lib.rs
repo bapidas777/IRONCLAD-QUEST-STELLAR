@@ -81,6 +81,27 @@ impl ForgeContract {
         let token_client = token::Client::new(&env, &token_addr);
         token_client.transfer(&env.current_contract_address(), &admin, &amount);
     }
+
+    pub fn pay_entry_fee(env: Env, player: Address, quiz_id: Symbol) {
+        player.require_auth();
+
+        // 1. Fetch Quiz Config
+        let config: QuizConfig = env
+            .storage()
+            .instance()
+            .get(&DataKey::QuizConfig(quiz_id.clone()))
+            .expect("quiz does not exist");
+
+        // 2. Transfer entry fee to contract treasury
+        let token_addr: Address = env.storage().instance().get(&DataKey::Token).expect("not initialized");
+        let token_client = token::Client::new(&env, &token_addr);
+        token_client.transfer(&player, &env.current_contract_address(), &config.entry_fee);
+
+        // 3. Mark player as active for this quiz
+        env.storage().instance().set(&DataKey::PlayerActive(player.clone()), &quiz_id);
+
+        env.events().publish((symbol_short!("enter"), player), config.entry_fee);
+    }
 }
 
 #[cfg(test)]
