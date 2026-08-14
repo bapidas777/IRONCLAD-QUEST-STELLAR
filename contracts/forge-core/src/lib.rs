@@ -102,6 +102,49 @@ impl ForgeContract {
 
         env.events().publish((symbol_short!("enter"), player), config.entry_fee);
     }
+
+    pub fn submit_batch(env: Env, solver: Address, answers: Vec<(u32, String)>) -> u32 {
+        solver.require_auth();
+
+        // 1. Verify player paid entry fee
+        let active_quiz_id: Symbol = env
+            .storage()
+            .instance()
+            .get(&DataKey::PlayerActive(solver.clone()))
+            .expect("must pay entry fee first");
+
+        // Clear active state to prevent re-submitting on same fee
+        env.storage().instance().remove(&DataKey::PlayerActive(solver.clone()));
+
+        // 2. Fetch quiz config and hashes
+        let config: QuizConfig = env.storage().instance().get(&DataKey::QuizConfig(active_quiz_id.clone())).unwrap();
+        let q_map: Map<u32, BytesN<32>> = env.storage().instance().get(&DataKey::QuizQuestions(active_quiz_id)).unwrap();
+
+        // 3. Evaluate answers
+        let mut correct = 0;
+        for entry in answers.iter() {
+            let (q_id, ans_string) = entry;
+            if let Some(correct_hash) = q_map.get(q_id) {
+                let ans_bytes = ans_string.to_xdr(&env);
+                let hashed_ans = env.crypto().sha256(&ans_bytes);
+                if hashed_ans == correct_hash {
+                    correct += 1;
+                    env.events().publish((symbol_short!("correct"), solver.clone()), q_id);
+                }
+            }
+        }
+
+        // 4. Payout if passed (for simplicity, perfect score required)
+        // You can change `correct == q_map.len()` to a threshold later
+        if correct > 0 && correct == q_map.len() {
+            let token_addr: Address = env.storage().instance().get(&DataKey::Token).expect("not init");
+            let token_client = token::Client::new(&env, &token_addr);
+            // Payout reward from contract treasury to solver
+            token_client.transfer(&env.current_contract_address(), &solver, &config.reward);
+        }
+
+        correct
+    }
 }
 
 #[cfg(test)]
