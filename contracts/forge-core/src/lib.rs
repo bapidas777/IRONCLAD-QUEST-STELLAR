@@ -135,12 +135,48 @@ impl ForgeContract {
         }
 
         // 4. Payout if passed (for simplicity, perfect score required)
-        // You can change `correct == q_map.len()` to a threshold later
         if correct > 0 && correct == q_map.len() {
             let token_addr: Address = env.storage().instance().get(&DataKey::Token).expect("not init");
             let token_client = token::Client::new(&env, &token_addr);
-            // Payout reward from contract treasury to solver
             token_client.transfer(&env.current_contract_address(), &solver, &config.reward);
+        }
+
+        // 5. Update Leaderboard (Optimized Insertion)
+        let mut high_scores: Map<Address, u32> = env.storage().persistent().get(&DataKey::HighScores).unwrap_or(Map::new(&env));
+        let prev_high = high_scores.get(solver.clone()).unwrap_or(0);
+        
+        if correct > prev_high {
+            high_scores.set(solver.clone(), correct);
+            env.storage().persistent().set(&DataKey::HighScores, &high_scores);
+
+            let mut leaderboard: Vec<(Address, u32)> = env.storage().instance().get(&DataKey::Leaderboard).unwrap_or(Vec::new(&env));
+            
+            // Remove previous score if exists
+            let mut new_lb = Vec::new(&env);
+            for entry in leaderboard.iter() {
+                if entry.0 != solver {
+                    new_lb.push_back(entry);
+                }
+            }
+            
+            // Insert sorted (descending)
+            let mut inserted = false;
+            let mut final_lb = Vec::new(&env);
+            for entry in new_lb.iter() {
+                if !inserted && correct > entry.1 {
+                    final_lb.push_back((solver.clone(), correct));
+                    inserted = true;
+                }
+                if final_lb.len() < 10 {
+                    final_lb.push_back(entry);
+                }
+            }
+            if !inserted && final_lb.len() < 10 {
+                final_lb.push_back((solver.clone(), correct));
+            }
+
+            env.storage().instance().set(&DataKey::Leaderboard, &final_lb);
+            env.events().publish((symbol_short!("leader"), solver), correct);
         }
 
         correct
