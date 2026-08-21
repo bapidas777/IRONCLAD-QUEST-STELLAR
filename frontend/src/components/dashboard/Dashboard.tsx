@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useGameState } from '../../context/GameState';
 import { Shield, Flame, CheckCircle, Swords, RefreshCw, AlertCircle, ExternalLink } from 'lucide-react';
-import { payEntryFee } from '../../lib/stellar';
+import { invokePayEntryFee } from '../../lib/stellar';
 import { useState, useEffect } from 'react';
 import { quests } from '../../data/quests';
 import LoadingSkeleton from '../LoadingSkeleton';
@@ -31,7 +31,7 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
 
     setPayingQuestId(questId);
     try {
-      const txHash = await payEntryFee(publicKey, feeXLM);
+      const txHash = await invokePayEntryFee(publicKey, questId);
       logActivity({
         title: 'Entry Fee Paid',
         subtitle: `-${feeXLM} XLM`,
