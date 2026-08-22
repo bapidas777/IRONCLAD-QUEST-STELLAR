@@ -1,6 +1,7 @@
 #![no_std]
 
 use soroban_sdk::{contract, contractimpl, contracttype, Address, BytesN, Env, Map, String, Symbol, Vec, symbol_short, token};
+use soroban_sdk::xdr::ToXdr;
 
 #[contracttype]
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -126,7 +127,8 @@ impl ForgeContract {
             let (q_id, ans_string) = entry;
             if let Some(correct_hash) = q_map.get(q_id) {
                 let ans_bytes = ans_string.to_xdr(&env);
-                let hashed_ans = env.crypto().sha256(&ans_bytes);
+                let hashed_ans_hash = env.crypto().sha256(&ans_bytes);
+                let hashed_ans: BytesN<32> = hashed_ans_hash.into();
                 if hashed_ans == correct_hash {
                     correct += 1;
                     env.events().publish((symbol_short!("correct"), solver.clone()), q_id);

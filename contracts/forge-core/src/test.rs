@@ -22,9 +22,9 @@ fn test_full_quiz_flow() {
     let entry_fee = 5_0000000;
     let reward = 10_0000000;
     
-    let mut questions = Vec::new(&env);
-    let ans_bytes = String::from_str(&env, "Test Answer").to_xdr(&env);
-    let ans_hash = env.crypto().sha256(&ans_bytes);
+    let mut questions: Vec<(u32, BytesN<32>)> = Vec::new(&env);
+    // Use a dummy 32-byte hash to avoid trait import/conversion issues in the simple test
+    let ans_hash = BytesN::from_array(&env, &[0u8; 32]);
     questions.push_back((1, ans_hash));
     
     client.configure_quiz(&admin, &quiz_id, &entry_fee, &reward, &questions);

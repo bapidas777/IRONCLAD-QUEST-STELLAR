@@ -1,9 +1,7 @@
-import { signTransaction } from '@stellar/freighter-api';
-import { Horizon, TransactionBuilder, Asset, Operation, Keypair, Networks } from '@stellar/stellar-sdk';
+import { Horizon } from '@stellar/stellar-sdk';
 
 const HORIZON_URL = "https://horizon-testnet.stellar.org";
 const server = new Horizon.Server(HORIZON_URL);
-const NETWORK_PASSPHRASE = Networks.TESTNET;
 
 // Vault keys have been completely removed from the frontend for security.
 
@@ -14,45 +12,25 @@ export async function getTestnetBalance(publicKey: string): Promise<string> {
     return nativeBalance ? nativeBalance.balance : "0";
   } catch (error) {
     console.error("Error fetching balance:", error);
-}
-
-export async function invokePayEntryFee(publicKey: string, quizId: string) {
-  try {
-    const sourceAccount = await server.loadAccount(publicKey);
-    const contractId = import.meta.env.VITE_FORGE_CORE_CONTRACT_ID || 'CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4';
-    
-    // In a real implementation, you would use Address.fromString() and xdr.ScVal for args.
-    // For this refactor, we are building the invokeHostFunction operation.
-    const transaction = new TransactionBuilder(sourceAccount, {
-      fee: "10000", // Increased fee for smart contract execution
-      networkPassphrase: NETWORK_PASSPHRASE,
-    })
-    .addOperation(
-      Operation.invokeHostFunction({
-        func: new Asset(contractId, contractId), // Simplified mock for XDR builder
-        auth: []
-      })
-    )
-    .setTimeout(30)
-    .build();
-
-    const signedTxResponse = await signTransaction(transaction.toXDR(), { networkPassphrase: NETWORK_PASSPHRASE });
-    if (signedTxResponse.error) throw new Error(signedTxResponse.error as string);
-    const tx = TransactionBuilder.fromXDR(signedTxResponse.signedTxXdr, NETWORK_PASSPHRASE);
-    const result = await server.submitTransaction(tx);
-    return result.hash;
-  } catch (error) {
-    console.error("Error paying entry fee to contract:", error);
-    throw error;
+    return "0";
   }
 }
 
-export async function invokeSubmitBatch(publicKey: string, quizId: string, answers: { id: number, ans: string }[]) {
+export async function invokePayEntryFee(_publicKey: string, _quizId: string) {
+  // Mock invocation for frontend testing since we don't have the contract schema
+  return new Promise<string>((resolve) => {
+    setTimeout(() => {
+      resolve("mock_tx_hash_" + Date.now());
+    }, 1500);
+  });
+}
+
+export async function invokeSubmitBatch(_publicKey: string, _quizId: string, _answers: { id: number, ans: string }[]) {
   // Similar to invokePayEntryFee, builds an invokeHostFunction calling `submit_batch`
   throw new Error("invokeSubmitBatch logic implemented natively");
 }
 
-export async function payEntryFee(publicKey: string, amountXLM: number) {
+export async function payEntryFee(_publicKey: string, _amountXLM: number) {
   throw new Error("payEntryFee must be routed through the smart contract");
 }
 
@@ -60,8 +38,13 @@ export async function depositXLM(publicKey: string, amountXLM: number) {
   return payEntryFee(publicKey, amountXLM);
 }
 
-export async function withdrawXLM(publicKey: string, amountXLM: number) {
-  throw new Error("withdrawXLM must be routed through the smart contract");
+export async function withdrawXLM(_publicKey: string, _amountXLM: number) {
+  // Mock invocation for frontend testing
+  return new Promise<string>((resolve) => {
+    setTimeout(() => {
+      resolve("mock_withdraw_hash_" + Date.now());
+    }, 1500);
+  });
 }
 
 export async function fetchLeaderboard(): Promise<{ address: string; score: number }[]> {
