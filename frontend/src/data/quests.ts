@@ -449,5 +449,37 @@ export const quests: Quest[] = [
         options: ["By using multiple independent nodes to fetch and aggregate data, eliminating single points of failure", "By storing all data on the blockchain directly", "By using proof of work to verify data", "By relying on the government for accurate data"]
       }
     ]
+  },
+  {
+    id: "trial-of-tokenomics",
+    title: "Trial of Tokenomics",
+    difficulty: "Intermediate",
+    estMins: 12,
+    description: "Analyze token supply dynamics, emission schedules, and incentive models.",
+    entryFeeXLM: 15,
+    rewardXLM: 35,
+    rewardXP: 250,
+    questions: [
+      {
+        id: 1,
+        text: "What does 'Tokenomics' refer to?",
+        options: ["The economic principles and incentives governing a crypto token's creation, distribution, and utility", "A specific cryptocurrency exchange", "The cryptographic algorithm used to secure tokens", "The legal regulations around crypto"]
+      },
+      {
+        id: 2,
+        text: "What is the difference between 'Circulating Supply' and 'Total Supply'?",
+        options: ["Circulating supply is tokens publicly available, while Total supply includes locked or reserved tokens", "They are exactly the same thing", "Circulating supply is infinite, total supply is fixed", "Total supply only includes burned tokens"]
+      },
+      {
+        id: 3,
+        text: "What is a token 'burn'?",
+        options: ["Permanently removing tokens from circulation by sending them to an irretrievable address", "Selling tokens at a loss", "When a token's price crashes", "Encrypting a token so it cannot be viewed"]
+      },
+      {
+        id: 4,
+        text: "In tokenomics, what is an 'emission schedule'?",
+        options: ["The rate and timeline at which new tokens are released into the circulating supply", "The carbon footprint of mining the token", "A list of exchanges where the token is listed", "The transaction speed of the network"]
+      }
+    ]
   }
 ];
