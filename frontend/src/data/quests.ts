@@ -422,5 +422,32 @@ export const quests: Quest[] = [
         options: ["A catastrophic failure of a smart contract", "A smart contract technique that allows the exchange of cryptocurrencies across two different blockchains without a trusted third party", "A fast consensus mechanism", "A method to burn tokens instantly"]
       }
     ]
+  },
+  {
+    id: "trial-of-oracles",
+    title: "Trial of Oracles",
+    difficulty: "Advanced",
+    estMins: 10,
+    description: "Understand how blockchains connect to real-world data securely.",
+    entryFeeXLM: 25,
+    rewardXLM: 60,
+    rewardXP: 350,
+    questions: [
+      {
+        id: 1,
+        text: "What is a blockchain oracle?",
+        options: ["A smart contract that predicts token prices", "A third-party service that connects smart contracts with external real-world data", "The consensus mechanism of the Ethereum network", "A hardware wallet manufacturer"]
+      },
+      {
+        id: 2,
+        text: "What is the 'Oracle Problem'?",
+        options: ["The inability of blockchains to process high volumes of data", "The security vulnerability of relying on a single centralized data source for decentralized smart contracts", "When an oracle fails to start", "The high gas fees required to read from an oracle"]
+      },
+      {
+        id: 3,
+        text: "How do Decentralized Oracle Networks (DONs) solve the Oracle Problem?",
+        options: ["By using multiple independent nodes to fetch and aggregate data, eliminating single points of failure", "By storing all data on the blockchain directly", "By using proof of work to verify data", "By relying on the government for accurate data"]
+      }
+    ]
   }
 ];
