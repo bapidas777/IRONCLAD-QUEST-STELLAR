@@ -481,5 +481,32 @@ export const quests: Quest[] = [
         options: ["The rate and timeline at which new tokens are released into the circulating supply", "The carbon footprint of mining the token", "A list of exchanges where the token is listed", "The transaction speed of the network"]
       }
     ]
+  },
+  {
+    id: "trial-of-auditors",
+    title: "Trial of Auditors",
+    difficulty: "Advanced",
+    estMins: 15,
+    description: "Identify complex smart contract vulnerabilities and secure coding patterns.",
+    entryFeeXLM: 30,
+    rewardXLM: 75,
+    rewardXP: 400,
+    questions: [
+      {
+        id: 1,
+        text: "What is a 'Flash Loan Attack'?",
+        options: ["Borrowing a massive amount of funds without collateral, manipulating a market, and repaying the loan all within a single transaction block", "Stealing a user's private key using a flash drive", "Overwhelming a network with rapid, flashy transactions (DDoS)", "A bug in the EVM that causes loans to disappear"]
+      },
+      {
+        id: 2,
+        text: "In Rust (and Soroban), what is the primary benefit of the 'Result' and 'Option' enums?",
+        options: ["They force explicit handling of potential errors and absence of values, preventing null pointer dereferences and silent failures", "They automatically optimize the compiled WASM size", "They encrypt data before it is stored on the ledger", "They allow unlimited cross-contract calls"]
+      },
+      {
+        id: 3,
+        text: "Why is relying on 'block.timestamp' (or equivalent ledger timestamps) for random number generation in a smart contract dangerous?",
+        options: ["Because validators/miners have some degree of control over the exact timestamp and can manipulate it to their advantage", "Because the timestamp is always 0 in testnets", "Because it uses too much gas", "Because timestamps are encrypted"]
+      }
+    ]
   }
 ];
