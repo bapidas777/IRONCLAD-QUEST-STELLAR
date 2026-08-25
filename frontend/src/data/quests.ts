@@ -508,5 +508,32 @@ export const quests: Quest[] = [
         options: ["Because validators/miners have some degree of control over the exact timestamp and can manipulate it to their advantage", "Because the timestamp is always 0 in testnets", "Because it uses too much gas", "Because timestamps are encrypted"]
       }
     ]
+  },
+  {
+    id: "trial-of-layer2",
+    title: "Trial of Layer 2",
+    difficulty: "Intermediate",
+    estMins: 10,
+    description: "Understand scaling solutions, rollups, and state channels.",
+    entryFeeXLM: 10,
+    rewardXLM: 25,
+    rewardXP: 180,
+    questions: [
+      {
+        id: 1,
+        text: "What is the primary purpose of a Layer 2 scaling solution?",
+        options: ["To increase transaction throughput and lower fees by handling transactions off the main chain (Layer 1)", "To create a brand new cryptocurrency", "To replace the original blockchain entirely", "To provide a user interface for wallets"]
+      },
+      {
+        id: 2,
+        text: "What is a 'Rollup'?",
+        options: ["A scaling solution that executes transactions outside of Layer 1, but posts transaction data to Layer 1", "A type of sushi bought with crypto", "A method to roll back a hacked transaction", "A smart contract that automatically stakes tokens"]
+      },
+      {
+        id: 3,
+        text: "Which of these is a key difference between Optimistic Rollups and ZK-Rollups?",
+        options: ["Optimistic rollups assume transactions are valid by default and use fraud proofs, while ZK-rollups use cryptographic validity proofs", "ZK-rollups are slower than Optimistic rollups", "Optimistic rollups run on Bitcoin, ZK-rollups run on Ethereum", "There is no difference, they are just marketing terms"]
+      }
+    ]
   }
 ];
