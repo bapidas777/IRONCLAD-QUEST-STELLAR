@@ -8,6 +8,15 @@ use soroban_sdk::xdr::ToXdr;
 pub struct QuizConfig {
     pub entry_fee: i128,
     pub reward: i128,
+    pub reward_xp: u32,
+}
+
+#[contracttype]
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct PlayerProfile {
+    pub xp: u32,
+    pub quizzes_won: u32,
+    pub streak: u32,
 }
 
 #[derive(Clone)]
@@ -17,7 +26,7 @@ pub enum DataKey {
     Token,
     QuizConfig(Symbol), // quiz_id -> QuizConfig
     QuizQuestions(Symbol), // quiz_id -> Map<u32, BytesN<32>>
-    PlayerActive(Address), // player -> Symbol (quiz_id)
+    PlayerProfile(Address), // player -> PlayerProfile
     HighScores, // Map<Address, u32>
     Leaderboard, // Vec<(Address, u32)>
 }
@@ -41,6 +50,7 @@ impl ForgeContract {
         quiz_id: Symbol,
         entry_fee: i128,
         reward: i128,
+        reward_xp: u32,
         questions: Vec<(u32, BytesN<32>)>,
     ) {
         admin.require_auth();
@@ -50,7 +60,7 @@ impl ForgeContract {
             panic!("unauthorized");
         }
 
-        let config = QuizConfig { entry_fee, reward };
+        let config = QuizConfig { entry_fee, reward, reward_xp };
         env.storage().instance().set(&DataKey::QuizConfig(quiz_id.clone()), &config);
 
         let mut q_map: Map<u32, BytesN<32>> = Map::new(&env);
@@ -83,43 +93,23 @@ impl ForgeContract {
         token_client.transfer(&env.current_contract_address(), &admin, &amount);
     }
 
-    pub fn pay_entry_fee(env: Env, player: Address, quiz_id: Symbol) {
-        player.require_auth();
+    pub fn submit_quiz(env: Env, solver: Address, quiz_id: Symbol, answers: Vec<(u32, String)>) -> u32 {
+        solver.require_auth();
 
-        // 1. Fetch Quiz Config
+        // 1. Fetch Quiz Config and Hashes
         let config: QuizConfig = env
             .storage()
             .instance()
             .get(&DataKey::QuizConfig(quiz_id.clone()))
             .expect("quiz does not exist");
+        let q_map: Map<u32, BytesN<32>> = env.storage().instance().get(&DataKey::QuizQuestions(quiz_id)).unwrap();
 
-        // 2. Transfer entry fee to contract treasury
+        // 2. Transfer entry fee to contract treasury atomically
         let token_addr: Address = env.storage().instance().get(&DataKey::Token).expect("not initialized");
         let token_client = token::Client::new(&env, &token_addr);
-        token_client.transfer(&player, &env.current_contract_address(), &config.entry_fee);
-
-        // 3. Mark player as active for this quiz
-        env.storage().instance().set(&DataKey::PlayerActive(player.clone()), &quiz_id);
-
-        env.events().publish((symbol_short!("enter"), player), config.entry_fee);
-    }
-
-    pub fn submit_batch(env: Env, solver: Address, answers: Vec<(u32, String)>) -> u32 {
-        solver.require_auth();
-
-        // 1. Verify player paid entry fee
-        let active_quiz_id: Symbol = env
-            .storage()
-            .instance()
-            .get(&DataKey::PlayerActive(solver.clone()))
-            .expect("must pay entry fee first");
-
-        // Clear active state to prevent re-submitting on same fee
-        env.storage().instance().remove(&DataKey::PlayerActive(solver.clone()));
-
-        // 2. Fetch quiz config and hashes
-        let config: QuizConfig = env.storage().instance().get(&DataKey::QuizConfig(active_quiz_id.clone())).unwrap();
-        let q_map: Map<u32, BytesN<32>> = env.storage().instance().get(&DataKey::QuizQuestions(active_quiz_id)).unwrap();
+        token_client.transfer(&solver, &env.current_contract_address(), &config.entry_fee);
+        
+        env.events().publish((symbol_short!("enter"), solver.clone()), config.entry_fee);
 
         // 3. Evaluate answers
         let mut correct = 0;
@@ -136,22 +126,31 @@ impl ForgeContract {
             }
         }
 
-        // 4. Payout if passed (for simplicity, perfect score required)
+        // 4. Fetch/Initialize Player Profile
+        let mut profile: PlayerProfile = env.storage().persistent().get(&DataKey::PlayerProfile(solver.clone())).unwrap_or(PlayerProfile { xp: 0, quizzes_won: 0, streak: 0 });
+
+        // 5. Payout and Profile Update if perfect score
         if correct > 0 && correct == q_map.len() {
-            let token_addr: Address = env.storage().instance().get(&DataKey::Token).expect("not init");
-            let token_client = token::Client::new(&env, &token_addr);
             token_client.transfer(&env.current_contract_address(), &solver, &config.reward);
+            profile.xp += config.reward_xp;
+            profile.quizzes_won += 1;
+            profile.streak += 1;
+        } else {
+            profile.streak = 0; // reset streak if they fail
         }
 
-        // 5. Update Leaderboard (Optimized Insertion)
+        // Save profile
+        env.storage().persistent().set(&DataKey::PlayerProfile(solver.clone()), &profile);
+
+        // 6. Update Leaderboard (Optimized Insertion) using XP instead of just correct answers
         let mut high_scores: Map<Address, u32> = env.storage().persistent().get(&DataKey::HighScores).unwrap_or(Map::new(&env));
         let prev_high = high_scores.get(solver.clone()).unwrap_or(0);
         
-        if correct > prev_high {
-            high_scores.set(solver.clone(), correct);
+        if profile.xp > prev_high {
+            high_scores.set(solver.clone(), profile.xp);
             env.storage().persistent().set(&DataKey::HighScores, &high_scores);
 
-            let mut leaderboard: Vec<(Address, u32)> = env.storage().instance().get(&DataKey::Leaderboard).unwrap_or(Vec::new(&env));
+            let leaderboard: Vec<(Address, u32)> = env.storage().instance().get(&DataKey::Leaderboard).unwrap_or(Vec::new(&env));
             
             // Remove previous score if exists
             let mut new_lb = Vec::new(&env);
@@ -165,8 +164,8 @@ impl ForgeContract {
             let mut inserted = false;
             let mut final_lb = Vec::new(&env);
             for entry in new_lb.iter() {
-                if !inserted && correct > entry.1 {
-                    final_lb.push_back((solver.clone(), correct));
+                if !inserted && profile.xp > entry.1 {
+                    final_lb.push_back((solver.clone(), profile.xp));
                     inserted = true;
                 }
                 if final_lb.len() < 10 {
@@ -174,14 +173,18 @@ impl ForgeContract {
                 }
             }
             if !inserted && final_lb.len() < 10 {
-                final_lb.push_back((solver.clone(), correct));
+                final_lb.push_back((solver.clone(), profile.xp));
             }
 
             env.storage().instance().set(&DataKey::Leaderboard, &final_lb);
-            env.events().publish((symbol_short!("leader"), solver), correct);
+            env.events().publish((symbol_short!("leader"), solver.clone()), profile.xp);
         }
 
         correct
+    }
+
+    pub fn get_player_profile(env: Env, player: Address) -> PlayerProfile {
+        env.storage().persistent().get(&DataKey::PlayerProfile(player)).unwrap_or(PlayerProfile { xp: 0, quizzes_won: 0, streak: 0 })
     }
 }
 
