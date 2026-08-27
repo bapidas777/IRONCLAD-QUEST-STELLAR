@@ -16,18 +16,15 @@ export async function getTestnetBalance(publicKey: string): Promise<string> {
   }
 }
 
-export async function invokePayEntryFee(_publicKey: string, _quizId: string) {
-  // Mock invocation for frontend testing since we don't have the contract schema
+export async function invokeSubmitQuiz(_publicKey: string, _quizId: string, _answers: { id: number, ans: string }[]) {
+  // Mock atomic invocation for frontend testing
+  // In a real deployed dApp, this builds an invokeHostFunction calling `submit_quiz` 
+  // via @stellar/freighter-api and signs the unified transaction payload.
   return new Promise<string>((resolve) => {
     setTimeout(() => {
-      resolve("mock_tx_hash_" + Date.now());
-    }, 1500);
+      resolve("mock_atomic_tx_" + Date.now());
+    }, 2000);
   });
-}
-
-export async function invokeSubmitBatch(_publicKey: string, _quizId: string, _answers: { id: number, ans: string }[]) {
-  // Similar to invokePayEntryFee, builds an invokeHostFunction calling `submit_batch`
-  throw new Error("invokeSubmitBatch logic implemented natively");
 }
 
 export async function payEntryFee(_publicKey: string, _amountXLM: number) {
