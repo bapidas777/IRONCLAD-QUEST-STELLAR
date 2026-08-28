@@ -1,14 +1,12 @@
 import { motion } from 'framer-motion';
 import { useGameState } from '../../context/GameState';
-import { Shield, Flame, CheckCircle, Swords, RefreshCw, AlertCircle, ExternalLink } from 'lucide-react';
-import { invokePayEntryFee } from '../../lib/stellar';
+import { Shield, Flame, CheckCircle, Swords, AlertCircle, ExternalLink } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { quests } from '../../data/quests';
 import LoadingSkeleton from '../LoadingSkeleton';
 
 export default function Dashboard({ publicKey, onStartQuest }: { publicKey: string | null, onStartQuest: (id: string) => void }) {
-  const { xp, rank, streak, activities, quizzesPlayed, quizzesWon, logActivity } = useGameState();
-  const [payingQuestId, setPayingQuestId] = useState<string | null>(null);
+  const { xp, rank, streak, activities, quizzesPlayed, quizzesWon } = useGameState();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
   const [isLoading, setIsLoading] = useState(true);
@@ -21,32 +19,15 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
   const filteredQuests = quests.filter(q => difficultyFilter === 'All' || q.difficulty === difficultyFilter);
 
 
-  const handleStartQuest = async (questId: string, feeXLM: number) => {
+  const handleStartQuest = async (questId: string) => {
     if (!publicKey) {
       setErrorMsg("Connect your wallet first!");
       setTimeout(() => setErrorMsg(null), 3000);
       return;
     }
-
-
-    setPayingQuestId(questId);
-    try {
-      const txHash = await invokePayEntryFee(publicKey, questId);
-      logActivity({
-        title: 'Entry Fee Paid',
-        subtitle: `-${feeXLM} XLM`,
-        timeAgo: 'Just now',
-        iconType: 'sword',
-        txHash
-      });
-      onStartQuest(questId);
-    } catch (error) {
-      console.error(error);
-      setErrorMsg("Transaction failed or rejected.");
-      setTimeout(() => setErrorMsg(null), 3000);
-    } finally {
-      setPayingQuestId(null);
-    }
+    // With Atomic Submissions, the entry fee is pulled automatically
+    // when the user signs the final submit_quiz transaction.
+    onStartQuest(questId);
   };
 
 
@@ -245,15 +226,10 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
                   </div>
                 </div>
                 <button 
-                  onClick={() => handleStartQuest(quest.id, quest.entryFeeXLM)}
-                  disabled={payingQuestId === quest.id}
+                  onClick={() => handleStartQuest(quest.id)}
                   className="w-full sm:w-auto bg-forge-blood hover:bg-forge-bloodLight text-white px-6 py-2 rounded shadow-forge-blood transition-all transform active:scale-95 font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:grayscale"
                 >
-                  {payingQuestId === quest.id ? (
-                    <><RefreshCw size={16} className="animate-spin" /> Approving...</>
-                  ) : (
-                    <>Play ({quest.entryFeeXLM} XLM)</>
-                  )}
+                  Play ({quest.entryFeeXLM} XLM)
                 </button>
               </div>
 

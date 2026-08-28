@@ -5,7 +5,7 @@ import { useGameState } from '../../context/GameState';
 import Confetti from 'react-confetti';
 import { useWindowSize } from 'react-use';
 import { quests } from '../../data/quests';
-import { invokeSubmitBatch } from '../../lib/stellar';
+import { invokeSubmitQuiz } from '../../lib/stellar';
 
 export default function TrialArena({ questId, onComplete, onGoToWallet }: { questId: string, onComplete: () => void, onGoToWallet?: () => void }) {
   const { addXP, updateBalance, logActivity, recordQuizResult, publicKey } = useGameState();
@@ -75,7 +75,7 @@ export default function TrialArena({ questId, onComplete, onGoToWallet }: { ques
       // In a full implementation, we'd wait for the blockchain to grade this
       // and read the event or return value. For the frontend demo, we mock
       // the network delay and simulate a pass since the plaintext answers were removed.
-      await invokeSubmitBatch(publicKey, questId, formattedAnswers);
+      await invokeSubmitQuiz(publicKey, questId, formattedAnswers);
       
       const finalScore = questionBank.length; // Simulated perfect score from chain
       setScore(finalScore);
