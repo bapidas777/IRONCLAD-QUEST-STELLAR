@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useGameState } from '../../context/GameState';
 import { User, Crown, TrendingDown, TrendingUp, Minus } from 'lucide-react';
 import LoadingSkeleton from '../LoadingSkeleton';
+import { fetchLeaderboard } from '../../lib/stellar';
 
 type Hero = {
   address: string;
@@ -14,24 +15,43 @@ type Hero = {
   isCurrentUser?: boolean;
 };
 
-const dummyHeroes: Hero[] = [
-  { address: 'GDDW...8812', name: 'The_Architect', score: 12850, avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCtPuDtHwdH96RrGQCGMxFoEUjbC1tu4rboKyfL0niOKMRvEXI854cByumi7D1yRBQxp0SgVv161q8hCVJt-qVpBqhShwjTqVeDlW1kAzX0eiasXWlDeb2yoS42b4lKwa4GrGCiD-EvDVZm7RIXVWxij165kwQJ0AFiXLW1cJwLj4NPNUFdOn2NJB3-aq7bkHtPZyiq2bqBMNYa-wFxzVG55e8fXtEGaA5HM4Ma9weqWWywCko7gd6j4g' },
-  { address: 'GBAJ...3K19', name: 'Ser_Quizalot', score: 9420, avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAiMWt3ssuVaHbdh09CWpxWivfomLJa0RtKh4BHlkXk43uo-sTXsCOAiTXtIB2Fpur_SFVMv7bRJ69nM9xqKjbT0N9dXkE0uSUUoLfkic4LcQB5eYRfYLWg-_93o0SV2WvfMvwrHOPN105iuIoIRcFRPk7dcrzuoRQWEoUWSz5QQiVkK7ARrb6xHdWYX3NEeudtWjGRjedvB7tV9p4CFqD8OOLrY7bKJyL2PiZpTAw5eKWAaBHuY7Bz-g' },
-  { address: 'GBQQ...1M90', name: 'IronMind_99', score: 8100, avatarUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD8Z1DvhQ35bzoTibqg2vteNt0HWsWFfLS3GN7th_VGLFZ816TR8SYItdIx4StUNzgu8HT47D0p_zCeAX-n9TAvLWta1knVwPDfjbIyRbtJk3--3JfC4ak_viSgJ6azmoTUE7lNuJaV4oTcKkrJY2PFSOnOMtNOn2AjyyAGk4RzPD6TY92RnZ_gYI9_nE8pPhVLI8thOfxfwlY74OGkGo47tXWxcjOOpqvsiWiQZlWVKsIJS_U6Us3-tQ' },
-  { address: 'GCPF...L4QQ', name: 'VoidWalker', score: 7890, trend: 'down', trendVal: 2 },
-  { address: 'GD8A...Z919', name: 'RogueNode', score: 3410, trend: 'flat', trendVal: 0 },
-  { address: 'RDND...9911', name: 'RandomDev', score: 90, trend: 'flat', trendVal: 0 },
-  { address: 'GXYZ...2233', name: 'CryptoNoob', score: 45, trend: 'down', trendVal: 1 },
+const dummyAvatars = [
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuCtPuDtHwdH96RrGQCGMxFoEUjbC1tu4rboKyfL0niOKMRvEXI854cByumi7D1yRBQxp0SgVv161q8hCVJt-qVpBqhShwjTqVeDlW1kAzX0eiasXWlDeb2yoS42b4lKwa4GrGCiD-EvDVZm7RIXVWxij165kwQJ0AFiXLW1cJwLj4NPNUFdOn2NJB3-aq7bkHtPZyiq2bqBMNYa-wFxzVG55e8fXtEGaA5HM4Ma9weqWWywCko7gd6j4g',
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuAiMWt3ssuVaHbdh09CWpxWivfomLJa0RtKh4BHlkXk43uo-sTXsCOAiTXtIB2Fpur_SFVMv7bRJ69nM9xqKjbT0N9dXkE0uSUUoLfkic4LcQB5eYRfYLWg-_93o0SV2WvfMvwrHOPN105iuIoIRcFRPk7dcrzuoRQWEoUWSz5QQiVkK7ARrb6xHdWYX3NEeudtWjGRjedvB7tV9p4CFqD8OOLrY7bKJyL2PiZpTAw5eKWAaBHuY7Bz-g',
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuD8Z1DvhQ35bzoTibqg2vteNt0HWsWFfLS3GN7th_VGLFZ816TR8SYItdIx4StUNzgu8HT47D0p_zCeAX-n9TAvLWta1knVwPDfjbIyRbtJk3--3JfC4ak_viSgJ6azmoTUE7lNuJaV4oTcKkrJY2PFSOnOMtNOn2AjyyAGk4RzPD6TY92RnZ_gYI9_nE8pPhVLI8thOfxfwlY74OGkGo47tXWxcjOOpqvsiWiQZlWVKsIJS_U6Us3-tQ'
 ];
 
 export default function HallOfHeroes() {
   const { publicKey, xp } = useGameState();
   const [isLoading, setIsLoading] = useState(true);
 
+  const [onChainData, setOnChainData] = useState<Hero[]>([]);
+
   useEffect(() => {
-    // Simulate data fetch / contract query delay
-    const timer = setTimeout(() => setIsLoading(false), 800);
-    return () => clearTimeout(timer);
+    fetchLeaderboard().then(data => {
+      // Mocking the fallback if chain is empty
+      const fetched = data.length > 0 ? data : [
+        { address: 'GDDW...8812', score: 12850 },
+        { address: 'GBAJ...3K19', score: 9420 },
+        { address: 'GBQQ...1M90', score: 8100 },
+        { address: 'GCPF...L4QQ', score: 7890 },
+        { address: 'GD8A...Z919', score: 3410 },
+        { address: 'RDND...9911', score: 90 },
+        { address: 'GXYZ...2233', score: 45 }
+      ];
+
+      const mapped: Hero[] = fetched.map((f, i) => ({
+        address: f.address,
+        name: `Player_${f.address.substring(0,4)}`,
+        score: f.score,
+        avatarUrl: i < 3 ? dummyAvatars[i] : undefined,
+        trend: i % 2 === 0 ? 'up' : 'flat',
+        trendVal: i % 3
+      }));
+
+      setOnChainData(mapped);
+      setIsLoading(false);
+    });
   }, []);
 
   const containerVariants = {
@@ -45,7 +65,7 @@ export default function HallOfHeroes() {
   };
 
   const allHeroes = useMemo(() => {
-    const list = [...dummyHeroes];
+    const list = [...onChainData];
     if (publicKey) {
       list.push({
         address: publicKey,
@@ -57,7 +77,7 @@ export default function HallOfHeroes() {
       });
     }
     return list.sort((a, b) => b.score - a.score);
-  }, [publicKey, xp]);
+  }, [publicKey, xp, onChainData]);
 
   const first = allHeroes[0];
   const second = allHeroes[1];
