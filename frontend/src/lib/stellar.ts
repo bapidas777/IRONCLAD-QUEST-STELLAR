@@ -1,4 +1,4 @@
-import { Horizon, TransactionBuilder, Transaction } from '@stellar/stellar-sdk';
+import { Horizon, TransactionBuilder, Transaction, rpc } from '@stellar/stellar-sdk';
 import { signTransaction, requestAccess, isAllowed } from '@stellar/freighter-api';
 import { Client, networks } from 'forge-client';
 
@@ -56,11 +56,14 @@ export async function invokeSubmitQuiz(publicKey: string, _quizId: string, answe
 
     // 7. Reconstruct transaction with signature and submit to network
     const signedTx = TransactionBuilder.fromXDR(signedTxResponse.signedTxXdr, networks.testnet.networkPassphrase) as Transaction;
-    // @ts-ignore - options.rpc exists on the ContractClient base
-    const result = await client.options.rpc.sendTransaction(signedTx);
+    
+    // 7. Submit to network
+    const rpcServer = new rpc.Server(rpcUrl);
+    const result = await rpcServer.sendTransaction(signedTx);
     
     if (result.status === "ERROR") {
-      throw new Error(`Transaction failed: ${result.errorResultXdr}`);
+      // @ts-ignore
+      throw new Error(`Transaction failed: ${result.errorResult || result.errorResultXdr}`);
     }
 
     // Return the hash
@@ -105,11 +108,13 @@ export async function payEntryFee(publicKey: string, amountXLM: number) {
     }
 
     const signedTx = TransactionBuilder.fromXDR(signedTxResponse.signedTxXdr, networks.testnet.networkPassphrase) as Transaction;
-    // @ts-ignore
-    const result = await client.options.rpc.sendTransaction(signedTx);
+    
+    const rpcServer = new rpc.Server(rpcUrl);
+    const result = await rpcServer.sendTransaction(signedTx);
     
     if (result.status === "ERROR") {
-      throw new Error(`Transaction failed: ${result.errorResultXdr}`);
+      // @ts-ignore
+      throw new Error(`Transaction failed: ${result.errorResult || result.errorResultXdr}`);
     }
 
     return result.hash;
