@@ -1,4 +1,6 @@
-import { Horizon } from '@stellar/stellar-sdk';
+import { Horizon, TransactionBuilder, Transaction } from '@stellar/stellar-sdk';
+import { signTransaction, requestAccess, isAllowed } from '@stellar/freighter-api';
+import { Client, networks } from 'forge-client';
 
 const HORIZON_URL = "https://horizon-testnet.stellar.org";
 const server = new Horizon.Server(HORIZON_URL);
@@ -16,15 +18,59 @@ export async function getTestnetBalance(publicKey: string): Promise<string> {
   }
 }
 
-export async function invokeSubmitQuiz(_publicKey: string, _quizId: string, _answers: { id: number, ans: string }[]) {
-  // Mock atomic invocation for frontend testing
-  // In a real deployed dApp, this builds an invokeHostFunction calling `submit_quiz` 
-  // via @stellar/freighter-api and signs the unified transaction payload.
-  return new Promise<string>((resolve) => {
-    setTimeout(() => {
-      resolve("mock_atomic_tx_" + Date.now());
-    }, 2000);
-  });
+export async function invokeSubmitQuiz(publicKey: string, _quizId: string, answers: { id: number, ans: string }[]) {
+  try {
+    // 1. Ensure Freighter access
+    if (!(await isAllowed())) {
+      await requestAccess();
+    }
+
+    const rpcUrl = import.meta.env.VITE_SOROBAN_RPC_URL || 'https://soroban-testnet.stellar.org';
+    
+    // 2. Initialize contract client
+    const client = new Client({
+      networkPassphrase: networks.testnet.networkPassphrase,
+      contractId: import.meta.env.VITE_FORGE_CORE_CONTRACT_ID || networks.testnet.contractId,
+      rpcUrl,
+      publicKey,
+    });
+
+    // 3. Format answers for Soroban (Array<[u32, string]>)
+    const formattedAnswers: [number, string][] = answers.map(a => [a.id, a.ans]);
+
+    // 4. Build the smart contract transaction
+    const tx = await client.submit_batch({
+      solver: publicKey,
+      answers: formattedAnswers
+    });
+
+    // 5. Build and serialize the XDR
+    const builtTx = tx.built!;
+    const txXdr = builtTx.toXDR();
+
+    // 6. Request signature from user via Freighter
+    const signedTxResponse = await signTransaction(txXdr, { networkPassphrase: networks.testnet.networkPassphrase });
+    
+    if (signedTxResponse.error) {
+      throw new Error(signedTxResponse.error as string);
+    }
+
+    // 7. Reconstruct transaction with signature and submit to network
+    const signedTx = TransactionBuilder.fromXDR(signedTxResponse.signedTxXdr, networks.testnet.networkPassphrase) as Transaction;
+    // @ts-ignore - options.rpc exists on the ContractClient base
+    const result = await client.options.rpc.sendTransaction(signedTx);
+    
+    if (result.status === "ERROR") {
+      throw new Error(`Transaction failed: ${result.errorResultXdr}`);
+    }
+
+    // Return the hash
+    return result.hash;
+
+  } catch (error) {
+    console.error("Error submitting quiz on-chain:", error);
+    throw error;
+  }
 }
 
 export async function payEntryFee(_publicKey: string, _amountXLM: number) {
@@ -35,11 +81,12 @@ export async function depositXLM(publicKey: string, amountXLM: number) {
   return payEntryFee(publicKey, amountXLM);
 }
 
-export async function withdrawXLM(_publicKey: string, _amountXLM: number) {
-  // Mock invocation for frontend testing
+export async function withdrawXLM(_publicKey: string, _amountXLM: number): Promise<string> {
+  // Mock invocation for frontend compatibility
+  // In the new architecture, rewards are sent atomically upon winning a quiz!
   return new Promise<string>((resolve) => {
     setTimeout(() => {
-      resolve("mock_withdraw_hash_" + Date.now());
+      resolve("atomic_payout_hash_" + Date.now());
     }, 1500);
   });
 }
