@@ -73,8 +73,52 @@ export async function invokeSubmitQuiz(publicKey: string, _quizId: string, answe
   }
 }
 
-export async function payEntryFee(_publicKey: string, _amountXLM: number) {
-  throw new Error("payEntryFee must be routed through the smart contract");
+export async function payEntryFee(publicKey: string, amountXLM: number) {
+  try {
+    if (!(await isAllowed())) {
+      await requestAccess();
+    }
+
+    const rpcUrl = import.meta.env.VITE_SOROBAN_RPC_URL || 'https://soroban-testnet.stellar.org';
+    const client = new Client({
+      networkPassphrase: networks.testnet.networkPassphrase,
+      contractId: import.meta.env.VITE_FORGE_CORE_CONTRACT_ID || networks.testnet.contractId,
+      rpcUrl,
+      publicKey,
+    });
+
+    const tokenAddress = 'CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC';
+    const amountInStroops = BigInt(Math.floor(amountXLM * 10000000));
+
+    const tx = await client.pay_entry_fee({
+      player: publicKey,
+      token_address: tokenAddress,
+      amount: amountInStroops
+    });
+
+    const builtTx = tx.built!;
+    const txXdr = builtTx.toXDR();
+
+    const signedTxResponse = await signTransaction(txXdr, { networkPassphrase: networks.testnet.networkPassphrase });
+    
+    if (signedTxResponse.error) {
+      throw new Error(signedTxResponse.error as string);
+    }
+
+    const signedTx = TransactionBuilder.fromXDR(signedTxResponse.signedTxXdr, networks.testnet.networkPassphrase) as Transaction;
+    // @ts-ignore
+    const result = await client.options.rpc.sendTransaction(signedTx);
+    
+    if (result.status === "ERROR") {
+      throw new Error(`Transaction failed: ${result.errorResultXdr}`);
+    }
+
+    return result.hash;
+
+  } catch (error) {
+    console.error("Error paying entry fee on-chain:", error);
+    throw error;
+  }
 }
 
 export async function depositXLM(publicKey: string, amountXLM: number) {

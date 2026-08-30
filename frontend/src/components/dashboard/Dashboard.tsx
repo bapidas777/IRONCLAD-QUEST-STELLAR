@@ -4,12 +4,15 @@ import { Shield, Flame, CheckCircle, Swords, AlertCircle, ExternalLink } from 'l
 import { useState, useEffect } from 'react';
 import { quests } from '../../data/quests';
 import LoadingSkeleton from '../LoadingSkeleton';
+import { depositXLM } from '../../lib/stellar';
+import { RefreshCw } from 'lucide-react';
 
 export default function Dashboard({ publicKey, onStartQuest }: { publicKey: string | null, onStartQuest: (id: string) => void }) {
   const { xp, rank, streak, activities, quizzesPlayed, quizzesWon } = useGameState();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
   const [isLoading, setIsLoading] = useState(true);
+  const [payingQuestId, setPayingQuestId] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 500);
@@ -19,15 +22,34 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
   const filteredQuests = quests.filter(q => difficultyFilter === 'All' || q.difficulty === difficultyFilter);
 
 
-  const handleStartQuest = async (questId: string) => {
+  const handleStartQuest = async (questId: string, entryFeeXLM: number) => {
     if (!publicKey) {
       setErrorMsg("Connect your wallet first!");
       setTimeout(() => setErrorMsg(null), 3000);
       return;
     }
-    // With Atomic Submissions, the entry fee is pulled automatically
-    // when the user signs the final submit_quiz transaction.
-    onStartQuest(questId);
+    
+    setPayingQuestId(questId);
+    try {
+      const txHash = await depositXLM(publicKey, entryFeeXLM);
+      
+      activities.unshift({
+        id: Date.now().toString(),
+        title: 'Entry Fee Paid',
+        subtitle: `-${entryFeeXLM} XLM`,
+        timeAgo: 'Just now',
+        iconType: 'sword',
+        txHash
+      });
+
+      onStartQuest(questId);
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("Payment transaction failed or rejected.");
+      setTimeout(() => setErrorMsg(null), 3000);
+    } finally {
+      setPayingQuestId(null);
+    }
   };
 
 
@@ -226,10 +248,15 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
                   </div>
                 </div>
                 <button 
-                  onClick={() => handleStartQuest(quest.id)}
+                  onClick={() => handleStartQuest(quest.id, quest.entryFeeXLM)}
+                  disabled={payingQuestId === quest.id}
                   className="w-full sm:w-auto bg-forge-blood hover:bg-forge-bloodLight text-white px-6 py-2 rounded shadow-forge-blood transition-all transform active:scale-95 font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:grayscale"
                 >
-                  Play ({quest.entryFeeXLM} XLM)
+                  {payingQuestId === quest.id ? (
+                    <><RefreshCw size={16} className="animate-spin" /> Approving...</>
+                  ) : (
+                    <>Play ({quest.entryFeeXLM} XLM)</>
+                  )}
                 </button>
               </div>
 
