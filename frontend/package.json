@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "cd forge-client && npm install && npm run build",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
