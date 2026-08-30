@@ -105,7 +105,7 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 **Proof of 20+ Unique User Wallet Interactions:**
 The screenshot below verifies **20+ unique users** who have successfully onboarded, connected their wallets, and interacted with the live app on the Stellar Testnet. 
 It captures their individual Stellar public addresses and the transaction hashes proving on-chain activity.
-![11 Unique Users Proof](./demo-img/10+user-interacion.png)
+![20+ Unique Users Proof](./demo-img/20+user-interaction.png)
 
 **Basic User Feedback Summary:**
 Based on the direct responses from our 20+ testers (visible in the spreadsheet above):
