@@ -28,19 +28,19 @@ export const quests: Quest[] = [
     rewardXP: 100,
     questions: [
       {
-        id: 1,
+        id: 100,
         text: "What is a seed phrase (recovery phrase) used for?",
-        options: ["To pay for gas fees", "To recover access to a wallet", "To encrypt a transaction", "To generate smart contracts"]
+        options: ["To pay for gas fees","To recover access to a wallet","To encrypt a transaction","To generate smart contracts"]
       },
       {
-        id: 2,
+        id: 101,
         text: "In the context of blockchain, what does 'decentralization' mean?",
-        options: ["Control is distributed across a network", "A single central server controls data", "All tokens have zero value", "Wallets are offline only"]
+        options: ["Control is distributed across a network","A single central server controls data","All tokens have zero value","Wallets are offline only"]
       },
       {
-        id: 3,
+        id: 102,
         text: "What is the native cryptocurrency of the Stellar network?",
-        options: ["Ether (ETH)", "Lumens (XLM)", "Bitcoin (BTC)", "Tether (USDT)"]
+        options: ["Ether (ETH)","Lumens (XLM)","Bitcoin (BTC)","Tether (USDT)"]
       }
     ]
   },
@@ -55,29 +55,29 @@ export const quests: Quest[] = [
     rewardXP: 250,
     questions: [
       {
-        id: 1,
+        id: 103,
         text: "In a standard ERC-721 implementation, which function is critical to prevent a contract from locking tokens indefinitely if the recipient cannot handle them?",
-        options: ["transferFrom()", "safeTransferFrom()", "approve()", "setApprovalForAll()"]
+        options: ["transferFrom()","safeTransferFrom()","approve()","setApprovalForAll()"]
       },
       {
-        id: 2,
+        id: 104,
         text: "Which of the following vulnerabilities occurs when a contract calls an external contract and the external contract calls back before the first invocation is finished?",
-        options: ["Integer Overflow", "Front-running", "Reentrancy", "Timestamp Dependence"]
+        options: ["Integer Overflow","Front-running","Reentrancy","Timestamp Dependence"]
       },
       {
-        id: 3,
+        id: 105,
         text: "What is the primary purpose of the 'Checks-Effects-Interactions' pattern in Solidity?",
-        options: ["To optimize gas costs", "To prevent Reentrancy attacks", "To upgrade smart contracts", "To encrypt private variables"]
+        options: ["To optimize gas costs","To prevent Reentrancy attacks","To upgrade smart contracts","To encrypt private variables"]
       },
       {
-        id: 4,
+        id: 106,
         text: "When interacting with a Soroban smart contract, how are state changes authorized?",
-        options: ["Multisig ONLY", "Implicitly by the contract", "Via Invoker Authorization Framework", "By providing the admin's private key"]
+        options: ["Multisig ONLY","Implicitly by the contract","Via Invoker Authorization Framework","By providing the admin's private key"]
       },
       {
-        id: 5,
+        id: 107,
         text: "Which keyword in Rust (used in Soroban) ensures that a variable's value cannot be changed by default?",
-        options: ["const", "let", "static", "readonly"]
+        options: ["const","let","static","readonly"]
       }
     ]
   },
@@ -92,39 +92,39 @@ export const quests: Quest[] = [
     rewardXP: 500,
     questions: [
       {
-        id: 1,
+        id: 108,
         text: "What is the size limit of a WASM contract deployed on the Stellar network?",
-        options: ["32 KB", "64 KB", "256 KB", "1 MB"]
+        options: ["32 KB","64 KB","256 KB","1 MB"]
       },
       {
-        id: 2,
+        id: 109,
         text: "Which cryptographic primitive does Soroban use by default for ed25519 signature verification?",
-        options: ["SHA-256", "Keccak-256", "ed25519_verify built-in", "ECDSA"]
+        options: ["SHA-256","Keccak-256","ed25519_verify built-in","ECDSA"]
       },
       {
-        id: 3,
+        id: 110,
         text: "How does Soroban handle contract data storage expiration?",
-        options: ["Data never expires", "It uses a TTL (Time To Live) bumping mechanism", "Manual deletion by admin", "Automatically after 1 week"]
+        options: ["Data never expires","It uses a TTL (Time To Live) bumping mechanism","Manual deletion by admin","Automatically after 1 week"]
       },
       {
-        id: 4,
+        id: 111,
         text: "In Zero-Knowledge Proofs, what does 'Succinctness' refer to?",
-        options: ["The proof is small and fast to verify", "The proof reveals zero knowledge", "The prover must know the secret", "The proof can only be used once"]
+        options: ["The proof is small and fast to verify","The proof reveals zero knowledge","The prover must know the secret","The proof can only be used once"]
       },
       {
-        id: 5,
+        id: 112,
         text: "What is the maximum number of cross-contract calls allowed in a single Soroban transaction?",
-        options: ["10", "Unlimited", "Configurable per network fee", "Hardcoded WASM limit"]
+        options: ["10","Unlimited","Configurable per network fee","Hardcoded WASM limit"]
       },
       {
-        id: 6,
+        id: 113,
         text: "When upgrading a Soroban contract, what remains immutable?",
-        options: ["The WASM hash", "The contract ID", "The stored data", "Both contract ID and stored data"]
+        options: ["The WASM hash","The contract ID","The stored data","Both contract ID and stored data"]
       },
       {
-        id: 7,
+        id: 114,
         text: "What is the primary advantage of Rust's ownership model in smart contracts?",
-        options: ["Faster compilation", "Memory safety without a garbage collector", "Built-in cryptography", "Automatic gas optimization"]
+        options: ["Faster compilation","Memory safety without a garbage collector","Built-in cryptography","Automatic gas optimization"]
       }
     ]
   },
@@ -139,24 +139,24 @@ export const quests: Quest[] = [
     rewardXP: 150,
     questions: [
       {
-        id: 1,
+        id: 115,
         text: "Which consensus mechanism does Bitcoin primarily use?",
-        options: ["Proof of Stake", "Proof of Work", "Federated Byzantine Agreement", "Delegated Proof of Stake"]
+        options: ["Proof of Stake","Proof of Work","Federated Byzantine Agreement","Delegated Proof of Stake"]
       },
       {
-        id: 2,
+        id: 116,
         text: "What consensus protocol does the Stellar network use?",
-        options: ["Proof of Work", "Proof of Stake", "Stellar Consensus Protocol (FBA)", "Proof of Authority"]
+        options: ["Proof of Work","Proof of Stake","Stellar Consensus Protocol (FBA)","Proof of Authority"]
       },
       {
-        id: 3,
+        id: 117,
         text: "In Proof of Stake (PoS), how are validators typically chosen?",
-        options: ["By solving complex mathematical puzzles", "Based on the amount of tokens they lock up (stake)", "By a central authority", "Randomly from all users"]
+        options: ["By solving complex mathematical puzzles","Based on the amount of tokens they lock up (stake)","By a central authority","Randomly from all users"]
       },
       {
-        id: 4,
+        id: 118,
         text: "What problem does the Byzantine Generals Problem illustrate in distributed computing?",
-        options: ["Data storage limits", "Reaching consensus in a network with potentially faulty or malicious nodes", "Network latency", "Smart contract vulnerabilities"]
+        options: ["Data storage limits","Reaching consensus in a network with potentially faulty or malicious nodes","Network latency","Smart contract vulnerabilities"]
       }
     ]
   },
@@ -171,19 +171,19 @@ export const quests: Quest[] = [
     rewardXP: 50,
     questions: [
       {
-        id: 1,
+        id: 119,
         text: "What is a 'block' in a blockchain?",
-        options: ["A physical server", "A collection of transactions bundled together", "A smart contract", "A wallet address"]
+        options: ["A physical server","A collection of transactions bundled together","A smart contract","A wallet address"]
       },
       {
-        id: 2,
+        id: 120,
         text: "Why are blockchains often described as 'immutable'?",
-        options: ["They cannot be hacked", "Data once written cannot be altered or deleted easily", "They have infinite storage", "They only accept native tokens"]
+        options: ["They cannot be hacked","Data once written cannot be altered or deleted easily","They have infinite storage","They only accept native tokens"]
       },
       {
-        id: 3,
+        id: 121,
         text: "What is a genesis block?",
-        options: ["The first block in a blockchain", "A block containing smart contracts", "A block that got rejected", "The last block in a blockchain"]
+        options: ["The first block in a blockchain","A block containing smart contracts","A block that got rejected","The last block in a blockchain"]
       }
     ]
   },
@@ -198,24 +198,24 @@ export const quests: Quest[] = [
     rewardXP: 300,
     questions: [
       {
-        id: 1,
+        id: 122,
         text: "What does AMM stand for in DeFi?",
-        options: ["Automated Money Maker", "Algorithmic Market Maker", "Automated Market Maker", "Advanced Monetary Model"]
+        options: ["Automated Money Maker","Algorithmic Market Maker","Automated Market Maker","Advanced Monetary Model"]
       },
       {
-        id: 2,
+        id: 123,
         text: "What is Impermanent Loss?",
-        options: ["Losing your seed phrase", "A temporary loss of funds when providing liquidity compared to just holding the assets", "When a token's price drops to zero", "A hack of a liquidity pool"]
+        options: ["Losing your seed phrase","A temporary loss of funds when providing liquidity compared to just holding the assets","When a token's price drops to zero","A hack of a liquidity pool"]
       },
       {
-        id: 3,
+        id: 124,
         text: "What is the primary function of a DEX?",
-        options: ["To store passwords securely", "To facilitate peer-to-peer cryptocurrency trading without a centralized intermediary", "To mine new blocks", "To provide customer support for crypto"]
+        options: ["To store passwords securely","To facilitate peer-to-peer cryptocurrency trading without a centralized intermediary","To mine new blocks","To provide customer support for crypto"]
       },
       {
-        id: 4,
+        id: 125,
         text: "What is 'Yield Farming'?",
-        options: ["Growing crops in the metaverse", "Staking or lending crypto assets in order to generate high returns or rewards", "Mining Bitcoin with ASIC miners", "Buying cheap NFTs to sell later"]
+        options: ["Growing crops in the metaverse","Staking or lending crypto assets in order to generate high returns or rewards","Mining Bitcoin with ASIC miners","Buying cheap NFTs to sell later"]
       }
     ]
   },
@@ -230,19 +230,19 @@ export const quests: Quest[] = [
     rewardXP: 100,
     questions: [
       {
-        id: 1,
+        id: 126,
         text: "What makes a token 'Non-Fungible'?",
-        options: ["It can be divided into smaller pieces", "It is unique and cannot be replaced with something else identical", "It has a fixed price", "It can only be used to buy physical goods"]
+        options: ["It can be divided into smaller pieces","It is unique and cannot be replaced with something else identical","It has a fixed price","It can only be used to buy physical goods"]
       },
       {
-        id: 2,
+        id: 127,
         text: "Which Ethereum token standard is most commonly associated with NFTs?",
-        options: ["ERC-20", "ERC-721", "ERC-1155", "ERC-777"]
+        options: ["ERC-20","ERC-721","ERC-1155","ERC-777"]
       },
       {
-        id: 3,
+        id: 128,
         text: "Where is the actual image of an NFT usually stored?",
-        options: ["Directly on the blockchain", "In a smart contract variable", "Off-chain (like IPFS or a central server) and linked via metadata", "In the user's local wallet storage"]
+        options: ["Directly on the blockchain","In a smart contract variable","Off-chain (like IPFS or a central server) and linked via metadata","In the user's local wallet storage"]
       }
     ]
   },
@@ -257,24 +257,24 @@ export const quests: Quest[] = [
     rewardXP: 600,
     questions: [
       {
-        id: 1,
+        id: 129,
         text: "In Soroban, which Rust macro is used to define a contract type?",
-        options: ["#[soroban_contract]", "#[contract]", "#[derive(Contract)]", "#[contracttype]"]
+        options: ["#[soroban_contract]","#[contract]","#[derive(Contract)]","#[contracttype]"]
       },
       {
-        id: 2,
+        id: 130,
         text: "What type of storage is best suited for data that multiple users share and modify in a Soroban contract?",
-        options: ["Instance Storage", "Temporary Storage", "Persistent Storage", "Volatile Storage"]
+        options: ["Instance Storage","Temporary Storage","Persistent Storage","Volatile Storage"]
       },
       {
-        id: 3,
+        id: 131,
         text: "How does a Soroban contract typically interact with native Stellar assets (like XLM)?",
-        options: ["By directly modifying the ledger", "Using the built-in token contract interface", "By issuing a new ERC-20 token", "It is impossible for Soroban to interact with XLM"]
+        options: ["By directly modifying the ledger","Using the built-in token contract interface","By issuing a new ERC-20 token","It is impossible for Soroban to interact with XLM"]
       },
       {
-        id: 4,
+        id: 132,
         text: "What is the environment variable used by a Soroban contract to interact with host functions?",
-        options: ["Host", "Env", "Context", "System"]
+        options: ["Host","Env","Context","System"]
       }
     ]
   },
@@ -289,24 +289,24 @@ export const quests: Quest[] = [
     rewardXP: 250,
     questions: [
       {
-        id: 1,
+        id: 133,
         text: "What is the primary role of Stellar Horizon?",
-        options: ["It is the consensus algorithm", "It is the client-facing REST API for the Stellar network", "It is a smart contract language", "It is a hardware wallet"]
+        options: ["It is the consensus algorithm","It is the client-facing REST API for the Stellar network","It is a smart contract language","It is a hardware wallet"]
       },
       {
-        id: 2,
+        id: 134,
         text: "In Stellar, what is a 'Trustline'?",
-        options: ["A line of code in a smart contract", "A cryptographic signature", "An explicit opt-in by an account to hold a specific asset issued by a specific account", "A decentralized exchange mechanism"]
+        options: ["A line of code in a smart contract","A cryptographic signature","An explicit opt-in by an account to hold a specific asset issued by a specific account","A decentralized exchange mechanism"]
       },
       {
-        id: 3,
+        id: 135,
         text: "What happens if a Stellar account drops below the base reserve requirement?",
-        options: ["The account is deleted", "The account cannot execute operations that require fees or reserve increases", "The account is temporarily suspended", "The account is charged a penalty fee"]
+        options: ["The account is deleted","The account cannot execute operations that require fees or reserve increases","The account is temporarily suspended","The account is charged a penalty fee"]
       },
       {
-        id: 4,
+        id: 136,
         text: "Which operation is used to send XLM from one Stellar account to another?",
-        options: ["Payment Operation", "Transfer Operation", "Send Operation", "Exchange Operation"]
+        options: ["Payment Operation","Transfer Operation","Send Operation","Exchange Operation"]
       }
     ]
   },
@@ -321,24 +321,24 @@ export const quests: Quest[] = [
     rewardXP: 450,
     questions: [
       {
-        id: 1,
+        id: 137,
         text: "What property of a cryptographic hash function ensures that finding two different inputs that produce the same output is computationally infeasible?",
-        options: ["Pre-image resistance", "Second pre-image resistance", "Collision resistance", "Avalanche effect"]
+        options: ["Pre-image resistance","Second pre-image resistance","Collision resistance","Avalanche effect"]
       },
       {
-        id: 2,
+        id: 138,
         text: "In public-key cryptography, what is used to verify a digital signature?",
-        options: ["The signer's private key", "The signer's public key", "A symmetric key", "The receiver's private key"]
+        options: ["The signer's private key","The signer's public key","A symmetric key","The receiver's private key"]
       },
       {
-        id: 3,
+        id: 139,
         text: "Which of the following is NOT a characteristic of a secure hash function?",
-        options: ["Deterministic", "Reversible", "Fixed output size", "Avalanche effect"]
+        options: ["Deterministic","Reversible","Fixed output size","Avalanche effect"]
       },
       {
-        id: 4,
+        id: 140,
         text: "What is a 'salt' in the context of hashing?",
-        options: ["Random data added to the input of a hash function to defend against dictionary attacks", "A method to speed up the hashing process", "A type of cryptographic algorithm", "A vulnerability in SHA-256"]
+        options: ["Random data added to the input of a hash function to defend against dictionary attacks","A method to speed up the hashing process","A type of cryptographic algorithm","A vulnerability in SHA-256"]
       }
     ]
   },
@@ -353,19 +353,19 @@ export const quests: Quest[] = [
     rewardXP: 200,
     questions: [
       {
-        id: 1,
+        id: 141,
         text: "What does DAO stand for?",
-        options: ["Decentralized Autonomous Organization", "Digital Asset Offering", "Distributed Anonymous Oracle", "Data Authentication Object"]
+        options: ["Decentralized Autonomous Organization","Digital Asset Offering","Distributed Anonymous Oracle","Data Authentication Object"]
       },
       {
-        id: 2,
+        id: 142,
         text: "What is typically used to represent voting power in a DAO?",
-        options: ["Fiat currency", "Governance tokens", "The number of active wallets", "Smart contract lines of code"]
+        options: ["Fiat currency","Governance tokens","The number of active wallets","Smart contract lines of code"]
       },
       {
-        id: 3,
+        id: 143,
         text: "What is 'Quadratic Voting'?",
-        options: ["Voting where you get 4 votes per token", "A system where the cost of additional votes increases quadratically", "Voting restricted to four choices", "A voting system only used by miners"]
+        options: ["Voting where you get 4 votes per token","A system where the cost of additional votes increases quadratically","Voting restricted to four choices","A voting system only used by miners"]
       }
     ]
   },
@@ -380,19 +380,19 @@ export const quests: Quest[] = [
     rewardXP: 40,
     questions: [
       {
-        id: 1,
+        id: 144,
         text: "What is a Block Explorer?",
-        options: ["A tool to mine cryptocurrency", "A search engine to view blockchain data like transactions, blocks, and addresses", "A web browser for decentralized websites", "A type of cryptocurrency wallet"]
+        options: ["A tool to mine cryptocurrency","A search engine to view blockchain data like transactions, blocks, and addresses","A web browser for decentralized websites","A type of cryptocurrency wallet"]
       },
       {
-        id: 2,
+        id: 145,
         text: "What is a transaction hash (txid)?",
-        options: ["A password to authorize a transaction", "A unique string of characters identifying a specific transaction on the blockchain", "The fee paid to miners", "The balance of an account"]
+        options: ["A password to authorize a transaction","A unique string of characters identifying a specific transaction on the blockchain","The fee paid to miners","The balance of an account"]
       },
       {
-        id: 3,
+        id: 146,
         text: "What does the 'mempool' do?",
-        options: ["Stores smart contracts", "Holds unconfirmed transactions waiting to be included in a block", "Generates new tokens", "Acts as a decentralized exchange"]
+        options: ["Stores smart contracts","Holds unconfirmed transactions waiting to be included in a block","Generates new tokens","Acts as a decentralized exchange"]
       }
     ]
   },
@@ -407,132 +407,19 @@ export const quests: Quest[] = [
     rewardXP: 480,
     questions: [
       {
-        id: 1,
+        id: 147,
         text: "What is the primary function of a blockchain bridge?",
-        options: ["To connect a blockchain to the regular internet", "To allow the transfer of tokens and data between two different blockchain networks", "To speed up transaction times on a single chain", "To upgrade a blockchain protocol"]
+        options: ["To connect a blockchain to the regular internet","To allow the transfer of tokens and data between two different blockchain networks","To speed up transaction times on a single chain","To upgrade a blockchain protocol"]
       },
       {
-        id: 2,
+        id: 148,
         text: "What does it mean to 'wrap' a token (e.g., wBTC)?",
-        options: ["Encrypting the token so it cannot be stolen", "Creating a token on one blockchain that represents an equivalent asset on another blockchain (like Bitcoin on Ethereum)", "Staking a token in a liquidity pool", "Hiding the token in a privacy protocol"]
+        options: ["Encrypting the token so it cannot be stolen","Creating a token on one blockchain that represents an equivalent asset on another blockchain (like Bitcoin on Ethereum)","Staking a token in a liquidity pool","Hiding the token in a privacy protocol"]
       },
       {
-        id: 3,
+        id: 149,
         text: "What is an Atomic Swap?",
-        options: ["A catastrophic failure of a smart contract", "A smart contract technique that allows the exchange of cryptocurrencies across two different blockchains without a trusted third party", "A fast consensus mechanism", "A method to burn tokens instantly"]
-      }
-    ]
-  },
-  {
-    id: "trial-of-oracles",
-    title: "Trial of Oracles",
-    difficulty: "Advanced",
-    estMins: 10,
-    description: "Understand how blockchains connect to real-world data securely.",
-    entryFeeXLM: 25,
-    rewardXLM: 60,
-    rewardXP: 350,
-    questions: [
-      {
-        id: 1,
-        text: "What is a blockchain oracle?",
-        options: ["A smart contract that predicts token prices", "A third-party service that connects smart contracts with external real-world data", "The consensus mechanism of the Ethereum network", "A hardware wallet manufacturer"]
-      },
-      {
-        id: 2,
-        text: "What is the 'Oracle Problem'?",
-        options: ["The inability of blockchains to process high volumes of data", "The security vulnerability of relying on a single centralized data source for decentralized smart contracts", "When an oracle fails to start", "The high gas fees required to read from an oracle"]
-      },
-      {
-        id: 3,
-        text: "How do Decentralized Oracle Networks (DONs) solve the Oracle Problem?",
-        options: ["By using multiple independent nodes to fetch and aggregate data, eliminating single points of failure", "By storing all data on the blockchain directly", "By using proof of work to verify data", "By relying on the government for accurate data"]
-      }
-    ]
-  },
-  {
-    id: "trial-of-tokenomics",
-    title: "Trial of Tokenomics",
-    difficulty: "Intermediate",
-    estMins: 12,
-    description: "Analyze token supply dynamics, emission schedules, and incentive models.",
-    entryFeeXLM: 15,
-    rewardXLM: 35,
-    rewardXP: 250,
-    questions: [
-      {
-        id: 1,
-        text: "What does 'Tokenomics' refer to?",
-        options: ["The economic principles and incentives governing a crypto token's creation, distribution, and utility", "A specific cryptocurrency exchange", "The cryptographic algorithm used to secure tokens", "The legal regulations around crypto"]
-      },
-      {
-        id: 2,
-        text: "What is the difference between 'Circulating Supply' and 'Total Supply'?",
-        options: ["Circulating supply is tokens publicly available, while Total supply includes locked or reserved tokens", "They are exactly the same thing", "Circulating supply is infinite, total supply is fixed", "Total supply only includes burned tokens"]
-      },
-      {
-        id: 3,
-        text: "What is a token 'burn'?",
-        options: ["Permanently removing tokens from circulation by sending them to an irretrievable address", "Selling tokens at a loss", "When a token's price crashes", "Encrypting a token so it cannot be viewed"]
-      },
-      {
-        id: 4,
-        text: "In tokenomics, what is an 'emission schedule'?",
-        options: ["The rate and timeline at which new tokens are released into the circulating supply", "The carbon footprint of mining the token", "A list of exchanges where the token is listed", "The transaction speed of the network"]
-      }
-    ]
-  },
-  {
-    id: "trial-of-auditors",
-    title: "Trial of Auditors",
-    difficulty: "Advanced",
-    estMins: 15,
-    description: "Identify complex smart contract vulnerabilities and secure coding patterns.",
-    entryFeeXLM: 30,
-    rewardXLM: 75,
-    rewardXP: 400,
-    questions: [
-      {
-        id: 1,
-        text: "What is a 'Flash Loan Attack'?",
-        options: ["Borrowing a massive amount of funds without collateral, manipulating a market, and repaying the loan all within a single transaction block", "Stealing a user's private key using a flash drive", "Overwhelming a network with rapid, flashy transactions (DDoS)", "A bug in the EVM that causes loans to disappear"]
-      },
-      {
-        id: 2,
-        text: "In Rust (and Soroban), what is the primary benefit of the 'Result' and 'Option' enums?",
-        options: ["They force explicit handling of potential errors and absence of values, preventing null pointer dereferences and silent failures", "They automatically optimize the compiled WASM size", "They encrypt data before it is stored on the ledger", "They allow unlimited cross-contract calls"]
-      },
-      {
-        id: 3,
-        text: "Why is relying on 'block.timestamp' (or equivalent ledger timestamps) for random number generation in a smart contract dangerous?",
-        options: ["Because validators/miners have some degree of control over the exact timestamp and can manipulate it to their advantage", "Because the timestamp is always 0 in testnets", "Because it uses too much gas", "Because timestamps are encrypted"]
-      }
-    ]
-  },
-  {
-    id: "trial-of-layer2",
-    title: "Trial of Layer 2",
-    difficulty: "Intermediate",
-    estMins: 10,
-    description: "Understand scaling solutions, rollups, and state channels.",
-    entryFeeXLM: 10,
-    rewardXLM: 25,
-    rewardXP: 180,
-    questions: [
-      {
-        id: 1,
-        text: "What is the primary purpose of a Layer 2 scaling solution?",
-        options: ["To increase transaction throughput and lower fees by handling transactions off the main chain (Layer 1)", "To create a brand new cryptocurrency", "To replace the original blockchain entirely", "To provide a user interface for wallets"]
-      },
-      {
-        id: 2,
-        text: "What is a 'Rollup'?",
-        options: ["A scaling solution that executes transactions outside of Layer 1, but posts transaction data to Layer 1", "A type of sushi bought with crypto", "A method to roll back a hacked transaction", "A smart contract that automatically stakes tokens"]
-      },
-      {
-        id: 3,
-        text: "Which of these is a key difference between Optimistic Rollups and ZK-Rollups?",
-        options: ["Optimistic rollups assume transactions are valid by default and use fraud proofs, while ZK-rollups use cryptographic validity proofs", "ZK-rollups are slower than Optimistic rollups", "Optimistic rollups run on Bitcoin, ZK-rollups run on Ethereum", "There is no difference, they are just marketing terms"]
+        options: ["A catastrophic failure of a smart contract","A smart contract technique that allows the exchange of cryptocurrencies across two different blockchains without a trusted third party","A fast consensus mechanism","A method to burn tokens instantly"]
       }
     ]
   }
