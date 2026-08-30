@@ -255,7 +255,7 @@ export default function WalletDashboard({ publicKey }: { publicKey: string | nul
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <h4 className="text-white text-sm font-medium">{activity.title}</h4>
-                    {activity.txHash && (
+                    {activity.txHash && activity.txHash.length === 64 && (
                       <a 
                         href={`https://stellar.expert/explorer/testnet/tx/${activity.txHash}`} 
                         target="_blank" 
