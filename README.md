@@ -76,7 +76,7 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 | **Advanced Contracts** | ✅ Persistent storage for Question states, High Scores, and a complex on-chain descending bubble-sort algorithm for the Leaderboard. |
 | **Inter-Contract Comm** | ✅ The `forge-core` contract auto-invokes the native Stellar Asset Contract to handle XLM transfers natively. |
 | **Event Streaming** | ✅ The smart contract emits Soroban events (`enter`, `correct`, `leader`). |
-| **Production transaction UI** | ✅ Fully optimized UX for fetching data, paying fees, and submitting batches. |
+| **Production transaction UI** | ✅ Fully optimized UX for fetching data and atomic quiz submissions. |
 | **StellarWalletsKit integration** | ✅ Implemented multi-wallet (Freighter, Albedo, xBull, Rabet) connectivity using the `@creit.tech/stellar-wallets-kit`. |
 | **Feature-based architecture** | ✅ Strictly separated Vite React frontend, components, contexts, and lib for XDR. |
 
@@ -94,7 +94,7 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 | **Optimized UX** | ✅ Themed skeleton loaders, smooth Framer Motion transitions, WebGL shader background |
 | **Project Structure & Docs** | ✅ Clean monorepo structure with comprehensive documentation |
 | **Smart Contracts on Testnet** | ✅ `forge-core` deployed at `CASYXS2TY4HMNTQQ53R5AKNJCMR3LCDLLQBAV4TTR6U4JELZM24J6VC4` |
-| **15+ Meaningful Commits** | ✅ 48+ meaningful commits with descriptive messages |
+| **15+ Meaningful Commits** | ✅ 80+ meaningful commits with descriptive messages |
 | **Demo Video** | ✅ [Watch Demo](https://youtu.be/VrlM1uB7XBk) |
 
 #### 📋 User Feedback & Onboarding Proof
@@ -207,18 +207,22 @@ sequenceDiagram
     participant ForgeContract
     participant StellarToken
     
-    Player->>ForgeContract: pay_entry_fee(amount, token)
-    ForgeContract->>StellarToken: transfer(player -> contract)
+    Player->>ForgeContract: submit_quiz(player, answers)
+    ForgeContract->>StellarToken: transfer(player -> contract) (Entry Fee)
     StellarToken-->>ForgeContract: XLM Transferred
     ForgeContract-->>Player: Emits "enter" Event
     
-    Player->>ForgeContract: submit_batch(answers)
     ForgeContract->>ForgeContract: Validate against QUZS Map
     ForgeContract-->>Player: Emits "correct" Event(s)
     
-    ForgeContract->>ForgeContract: Update HIGH_SCORES Map
+    ForgeContract->>ForgeContract: Update PLAYER_PROFILES (XP/Streak)
     ForgeContract->>ForgeContract: Bubble Sort LEADERBOARD
     ForgeContract-->>Player: Emits "leader" Event (if top 10)
+    
+    opt If Perfect Score
+        ForgeContract->>StellarToken: transfer(contract -> player) (Reward)
+        StellarToken-->>ForgeContract: XLM Transferred
+    end
 ```
 
 ![Verification on Stellar Expert](./demo-img/verification-on-stellar-expert.png)
