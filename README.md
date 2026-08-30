@@ -102,13 +102,13 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 *   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform)
 *   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?gid=1980202303#gid=1980202303)
 
-**Proof of 10+ Unique User Wallet Interactions:**
-The screenshot below verifies **11 unique users** who have successfully onboarded, connected their wallets, and interacted with the live app on the Stellar Testnet. 
+**Proof of 20+ Unique User Wallet Interactions:**
+The screenshot below verifies **20+ unique users** who have successfully onboarded, connected their wallets, and interacted with the live app on the Stellar Testnet. 
 It captures their individual Stellar public addresses and the transaction hashes proving on-chain activity.
 ![11 Unique Users Proof](./demo-img/10+user-interacion.png)
 
 **Basic User Feedback Summary:**
-Based on the direct responses from our 11 testers (visible in the spreadsheet above):
+Based on the direct responses from our 20+ testers (visible in the spreadsheet above):
 *   **Performance & Blockchain Experience**: Users were highly impressed by the speed. Quotes include: *"The app is incredibly smooth!"* and *"The transaction speeds on the Stellar network are super fast."* One user even noted, *"transaction is too fast im doubting its even faster than our host platform"*.
 *   **UI/UX Design**: The design was universally praised. Feedback highlighted the *"cool looking UI"*, *"very interactive UI/UX"*, and described the aesthetic as *"very cool mythic looking"* and *"unique ancient harrypotter themed"*.
 *   **Constructive Suggestions**: Users expressed a strong desire for more content beyond just blockchain topics. Suggestions included: *"It would be great to see a larger selection of quizzes"*, adding *"different types of games"*, and implementing retention features like *"daily login bonuses or weekend multiplier events where we can earn bonus XP"*.
