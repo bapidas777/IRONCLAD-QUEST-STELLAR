@@ -8,7 +8,7 @@ import { depositXLM } from '../../lib/stellar';
 import { RefreshCw } from 'lucide-react';
 
 export default function Dashboard({ publicKey, onStartQuest }: { publicKey: string | null, onStartQuest: (id: string) => void }) {
-  const { xp, rank, streak, activities, quizzesPlayed, quizzesWon } = useGameState();
+  const { xp, rank, streak, activities, quizzesPlayed, quizzesWon, logActivity } = useGameState();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
   const [isLoading, setIsLoading] = useState(true);
@@ -33,8 +33,7 @@ export default function Dashboard({ publicKey, onStartQuest }: { publicKey: stri
     try {
       const txHash = await depositXLM(publicKey, entryFeeXLM);
       
-      activities.unshift({
-        id: Date.now().toString(),
+      logActivity({
         title: 'Entry Fee Paid',
         subtitle: `-${entryFeeXLM} XLM`,
         timeAgo: 'Just now',

@@ -48,7 +48,6 @@ export async function invokeSubmitQuiz(publicKey: string, _quizId: string, answe
     const builtTx = tx.built!;
     const txXdr = builtTx.toXDR();
 
-    // 6. Request signature from user via Freighter
     const signedTxResponse = await signTransaction(txXdr, { networkPassphrase: networks.testnet.networkPassphrase });
     
     if (signedTxResponse.error) {
