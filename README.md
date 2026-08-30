@@ -22,8 +22,8 @@
 *   **🌐 Live Production Link**: [https://ironclad-quest-stellar.vercel.app/](https://ironclad-quest-stellar.vercel.app/)
 *   **📹 Demo Video Presentation**: [https://youtu.be/VrlM1uB7XBk](https://youtu.be/VrlM1uB7XBk)
 *   **💻 GitHub Repository**: [https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR](https://github.com/bapidas777/IRONCLAD-QUEST-STELLAR)
-*   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform?usp=publish-editor)
-*   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?usp=sharing)
+*   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform)
+*   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?gid=1980202303#gid=1980202303)
 
 ---
 
@@ -99,8 +99,8 @@ We solve this by introducing a high-stakes, hyper-gamified learning environment:
 
 #### 📋 User Feedback & Onboarding Proof
 
-*   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform?usp=publish-editor)
-*   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?usp=sharing)
+*   **📝 User Feedback Google Form**: [Submit Feedback](https://docs.google.com/forms/d/e/1FAIpQLSeWzeFKqGbhXxEJKxSbZOAO67hSfxxzzhbUm4uMyuDL5w7mEg/viewform)
+*   **📊 Feedback Responses Sheet**: [View Responses](https://docs.google.com/spreadsheets/d/1rVzif9IMotexyA73lMSeqFb4f0Fw3qt8l14-uW0tgu0/edit?gid=1980202303#gid=1980202303)
 
 **Proof of 10+ Unique User Wallet Interactions:**
 The screenshot below verifies **11 unique users** who have successfully onboarded, connected their wallets, and interacted with the live app on the Stellar Testnet. 
